@@ -30,9 +30,9 @@ jobs:
         run: |
           poetry install
       
-      -name: linter
-       run:
-         make lint
+      - name: linter
+        run: |
+          make lint
           
       - name: Test with pytest
         run: |
