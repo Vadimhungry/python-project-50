@@ -29,6 +29,10 @@ jobs:
       - name: poetry install dependencies
         run: |
           poetry install
+      
+      -name: linter
+       run:
+         make lint
           
       - name: Test with pytest
         run: |
