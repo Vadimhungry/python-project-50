@@ -23,6 +23,17 @@ jobs:
         with:
           hexlet-id: ${{ secrets.HEXLET_ID }}
       
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+      
+      - name: poetry install dependencies
+        run: |
+          poetry install
+      
+      - name: linter
+        run: |
+          make lint
+          
       - name: Test with pytest
         run: |
           pytest
