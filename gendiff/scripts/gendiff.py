@@ -2,6 +2,7 @@
 import argparse
 import json
 import gendiff.functions.functions as fu
+from gendiff.scripts.parse_data import get_file_data
 
 parser = argparse.ArgumentParser(
     description='Compares two configuration files and shows a difference.'
@@ -13,10 +14,8 @@ args = parser.parse_args()
 
 
 def main():
-    with open(args.first_file) as first:
-        data_1 = json.load(first)
-    with open(args.second_file) as second:
-        data_2 = json.load(second)
+    data_1 = get_file_data(args.first_file)
+    data_2 = get_file_data(args.second_file)
 
     print(fu.make_plaindiff(data_1, data_2))
 

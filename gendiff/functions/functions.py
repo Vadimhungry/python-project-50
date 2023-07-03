@@ -37,4 +37,4 @@ data1 = {
 }
 data2 = {'timeout': 20, 'verbose': True, 'host': 'hexlet.io'}
 
-print(repr(make_plaindiff(data1, data2)))
+# print(repr(make_plaindiff(data1, data2)))
