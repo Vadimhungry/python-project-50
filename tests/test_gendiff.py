@@ -1,9 +1,19 @@
+import pytest
+
 from gendiff.functions.functions import make_plaindiff
 
-data1 = {'host': 'hexlet.io', 'timeout': 50, 'proxy': '123.234.53.22', 'follow': False}
-data2 = {'timeout': 20, 'verbose': True, 'host': 'hexlet.io'}
 
-def test_make_plaindiff():
+@pytest.fixture
+def data1():
+    return {'host': 'hexlet.io', 'timeout': 50, 'proxy': '123.234.53.22', 'follow': False}
+
+
+@pytest.fixture
+def data2():
+    return {'timeout': 20, 'verbose': True, 'host': 'hexlet.io'}
+
+
+def test_make_plaindiff(data1, data2):
     assert make_plaindiff(data1, data2) == '{\n' \
                                '- follow: False\n' \
                                '  host: hexlet.io\n' \
