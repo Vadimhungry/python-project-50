@@ -11,4 +11,3 @@ def test_make_plaindiff():
                                '- timeout: 50\n' \
                                '+ timeout: 20\n' \
                                '+ verbose: True\n}'
-

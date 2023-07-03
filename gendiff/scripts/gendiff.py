@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import argparse
-import json
 import gendiff.functions.functions as fu
 from gendiff.scripts.parse_data import get_file_data
 
