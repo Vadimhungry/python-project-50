@@ -16,7 +16,7 @@ def main():
     data_1 = get_file_data(args.first_file)
     data_2 = get_file_data(args.second_file)
 
-    print(fu.make_plaindiff(data_1, data_2))
+    print(fu.make_diff(data_1, data_2))
 
 
 if __name__ == '__main__':

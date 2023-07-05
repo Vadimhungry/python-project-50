@@ -1,6 +1,6 @@
 import pytest
 
-from gendiff.functions.functions import make_plaindiff
+from gendiff.functions.functions import make_diff
 
 
 @pytest.fixture
@@ -14,7 +14,7 @@ def data2():
 
 
 def test_make_plaindiff(data1, data2):
-    assert make_plaindiff(data1, data2) == '{\n' \
+    assert make_diff(data1, data2) == '{\n' \
                                '- follow: False\n' \
                                '  host: hexlet.io\n' \
                                '- proxy: 123.234.53.22\n' \

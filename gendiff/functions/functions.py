@@ -1,25 +1,33 @@
-def make_plaindiff(data_1, data_2):
-    differences = {}
+def make_diff(data1, data2):
+    diff = {}
 
-    def inner(data_1, data_2):
-        for key in data_1:
 
-            if key in data_2 and data_1[key] == data_2[key]:
-                differences[key] = f'  {key}: {data_1[key]}'
+    def inner(data1, data2):
 
-            if key in data_2 and data_1[key] != data_2[key]:
-                differences[key] = f'- {key}: {data_1[key]}\n' \
-                                         f'+ {key}: {data_2[key]}'
+        for key in {**data1, **data2}:
 
-            if key not in data_2:
-                differences[key] = f'- {key}: {data_1[key]}'
+            if key in data1 and key in data2:
 
-        for key in data_2:
-            if key not in data_1:
-                differences[key] = f'+ {key}: {data_2[key]}'
-        return differences
-    return form_diff_string(inner(data_1, data_2))
+                if data1[key] == data2[key]:
+                    diff[key] = f'  {key}: {data1[key]}'
 
+                elif type(data1[key]) != dict or type(data2[key]) != dict:
+                    diff[key] = f'- {key}: {data1[key]}\n+ {key}: {data2[key]}'
+
+                elif type(data1[key]) == dict:
+
+                    diff[key] = f'{key}: '
+                    diff[key] += str(make_diff(data1[key], data2[key]))
+
+            if key in data1 and key not in data2:
+                diff[key] = f'- {key}: {data1[key]}'
+
+            if key not in data1 and key in data2:
+                diff[key] = f'+ {key}: {data2[key]}'
+
+        return diff
+
+    return inner(data1, data2)
 
 def form_diff_string(diff_dict):
     result = '{'
@@ -29,12 +37,33 @@ def form_diff_string(diff_dict):
     return result
 
 
-data1 = {
-    'host': 'hexlet.io',
-    'timeout': 50,
-    'proxy': '123.234.53.22',
-    'follow': False,
-}
-data2 = {'timeout': 20, 'verbose': True, 'host': 'hexlet.io'}
+def stringify_dic(obj, replacer=' ', spacesCount=1):
+    baseSpacesCount = spacesCount
 
-# print(repr(make_plaindiff(data1, data2)))
+    def inner(obj, replacer=' ', spacesCount=1):
+
+        result = ''
+        for key, val in obj.items():
+
+            if type(val) == dict:
+                result += f'{replacer * spacesCount}{key}:' + \
+                           ' {\n'
+                result += f'{inner(val, replacer , spacesCount + baseSpacesCount)}' + \
+                          f'{replacer * spacesCount}' + '}\n'
+            else:
+                result += f'{replacer * spacesCount}{key}: {val}\n'
+        return result
+    inner_str = inner(obj, replacer, spacesCount)
+    result = '{\n' + inner_str + '}'
+    return result
+
+
+def stringify(obj, replacer=' ', spacesCount=1):
+
+    if type(obj) == dict:
+        return stringify_dic(obj, replacer, spacesCount)
+    else:
+        return str(obj)
+
+
+
