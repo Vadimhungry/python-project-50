@@ -1,5 +1,5 @@
 def make_diff(data1, data2):
-    diff = {}
+    diff = []
 
 
     def inner(data1, data2):
@@ -9,21 +9,47 @@ def make_diff(data1, data2):
             if key in data1 and key in data2:
 
                 if data1[key] == data2[key]:
-                    diff[key] = f'  {key}: {data1[key]}'
+                    return {
+                        'key': key,
+                        'file_1': data1[key],
+                        'file_2': data2[key],
+                        'children': []
+                    }
 
                 elif type(data1[key]) != dict or type(data2[key]) != dict:
-                    diff[key] = f'- {key}: {data1[key]}\n+ {key}: {data2[key]}'
+                    return {
+                        'key': key,
+                        'file_1': data1[key],
+                        'file_2': data2[key],
+                        'children': []
+                    }
 
-                elif type(data1[key]) == dict:
+                elif type(data1[key]) == dict and type(data2[key]) == dict:
+                    return {
+                        'key': key,
+                        'file_1': '',
+                        'file_2': '',
+                        'children': inner(data1[key], data2[key])
+                    }
 
-                    diff[key] = f'{key}: '
-                    diff[key] += str(make_diff(data1[key], data2[key]))
 
             if key in data1 and key not in data2:
-                diff[key] = f'- {key}: {data1[key]}'
+                return {
+                    'key': key,
+                    'file_1': data1[key],
+                    'file_2': None,
+                    'children': []
+                }
+
 
             if key not in data1 and key in data2:
-                diff[key] = f'+ {key}: {data2[key]}'
+                return {
+                    'key': key,
+                    'file_1': None,
+                    'file_2': data2[key],
+                    'children': []
+                }
+
 
         return diff
 
