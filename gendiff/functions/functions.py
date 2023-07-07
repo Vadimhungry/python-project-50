@@ -1,59 +1,55 @@
-def make_diff(data1, data2):
-    diff = []
-
+def make_diff_dict(data1, data2):
 
     def inner(data1, data2):
 
-        for key in {**data1, **data2}:
+        diff = []
 
-            if key in data1 and key in data2:
-
-                if data1[key] == data2[key]:
-                    return {
-                        'key': key,
-                        'file_1': data1[key],
-                        'file_2': data2[key],
-                        'children': []
-                    }
-
-                elif type(data1[key]) != dict or type(data2[key]) != dict:
-                    return {
-                        'key': key,
-                        'file_1': data1[key],
-                        'file_2': data2[key],
-                        'children': []
-                    }
-
-                elif type(data1[key]) == dict and type(data2[key]) == dict:
-                    return {
-                        'key': key,
-                        'file_1': '',
-                        'file_2': '',
-                        'children': inner(data1[key], data2[key])
-                    }
-
-
-            if key in data1 and key not in data2:
-                return {
+        for key in list({**data1, **data2}.keys()):
+            if key not in data2:
+                print('key not in data2')
+                diff.append({
                     'key': key,
                     'file_1': data1[key],
                     'file_2': None,
                     'children': []
-                }
+                })
 
-
-            if key not in data1 and key in data2:
-                return {
+            elif key not in data1:
+                diff.append({
                     'key': key,
                     'file_1': None,
                     'file_2': data2[key],
                     'children': []
-                }
+                })
 
+            elif key in data1 and key in data2:
 
+                if isinstance(data1[key], dict) \
+                        and isinstance(data2[key], dict):
+                    diff.append({
+                        'key': key,
+                        'children': inner(data1[key], data2[key])
+                    })
+
+                elif data1[key] != data2[key]:
+                    diff.append({
+                        'key': key,
+                        'file_1': data1[key],
+                        'file_2': data2[key],
+                        'children': []
+                    })
+
+                elif data1[key] == data2[key]:
+                    diff.append({
+                        'key': key,
+                        'file_1': data1[key],
+                        'file_2': data2[key],
+                        'children': []
+                    })
         return diff
 
     return inner(data1, data2)
+
 
 def form_diff_string(diff_dict):
     result = '{'
@@ -63,33 +59,30 @@ def form_diff_string(diff_dict):
     return result
 
 
-def stringify_dic(obj, replacer=' ', spacesCount=1):
-    baseSpacesCount = spacesCount
+def stringify_dic(obj, replacer=' ', spaces=1):
+    baseSpaces = spaces
 
-    def inner(obj, replacer=' ', spacesCount=1):
+    def inner(obj, replacer=' ', spaces=1):
 
         result = ''
         for key, val in obj.items():
 
             if type(val) == dict:
-                result += f'{replacer * spacesCount}{key}:' + \
+                result += f'{replacer * spaces}{key}:' + \
                            ' {\n'
-                result += f'{inner(val, replacer , spacesCount + baseSpacesCount)}' + \
-                          f'{replacer * spacesCount}' + '}\n'
+                result += f'{inner(val, replacer, spaces + baseSpaces)}' + \
+                          f'{replacer * spaces}' + '}\n'
             else:
-                result += f'{replacer * spacesCount}{key}: {val}\n'
+                result += f'{replacer * spaces}{key}: {val}\n'
         return result
-    inner_str = inner(obj, replacer, spacesCount)
+    inner_str = inner(obj, replacer, spaces)
     result = '{\n' + inner_str + '}'
     return result
 
 
-def stringify(obj, replacer=' ', spacesCount=1):
+def stringify(obj, replacer=' ', spaces=1):
 
     if type(obj) == dict:
-        return stringify_dic(obj, replacer, spacesCount)
+        return stringify(obj, replacer, spaces)
     else:
         return str(obj)
-
-
-
