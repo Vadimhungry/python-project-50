@@ -24,7 +24,8 @@ def get_diff(data1, data2):
 
             elif key in data1 and key in data2:
 
-                if isinstance(data1[key], dict) and isinstance(data2[key], dict):
+                if isinstance(data1[key], dict) \
+                        and isinstance(data2[key], dict):
                     diff.append({
                         'key': key,
                         'children': inner(data1[key], data2[key], level + 1),
@@ -51,136 +52,135 @@ def get_diff(data1, data2):
     return inner(data1, data2)
 
 
-def stylish(obj, replacer=' ', spacesCount=1):
-    baseSpacesCount = spacesCount
+def stylish(diff, replacer=' ', spacesCount=1):
 
-    def inner(obj, replacer=' ', spacesCount=1):
+    def inner(diff, replacer=' ', spacesCount=1):
 
         result = ''
-        for item in obj:
+
+        for item in diff:
+
+            prekey_replacer = replacer * (spacesCount * item['level'] * 4 - 2)
+            prebracket_replacer = replacer * (spacesCount * item['level'] * 4)
 
             if 'children' in item:
-
-                result += replacer * (spacesCount * item['level'] * 4 - 2) + '  ' + item['key'] + ':' + ' {\n'
-
+                result += prekey_replacer + '  ' + item['key'] + ':' + ' {\n'
                 result += inner(
                     item['children'],
                     replacer,
                     spacesCount
-                ) + replacer * (spacesCount * item['level'] * 4) + '}\n'
+                )
+                result += prebracket_replacer + '}\n'
+
             else:
 
                 if item['file_1'] is None:
 
-                    result += replacer * (spacesCount * item['level'] * 4 - 2) + \
-                              '+ ' + item['key'] +\
-                              ': ' + \
-                              format_val(
-                                  item['file_2'],
-                                  replacer,
-                                  spacesCount * item['level'] * 4 - 2,
-                                  item['level']
-                              ) + '\n'
+                    result += prekey_replacer + '+ ' + item['key'] + ': '
+
+                    if isinstance(item['file_2'], dict):
+
+                        result += format_value(
+                            item['file_2'],
+                            replacer,
+                            spacesCount,
+                            item['level']
+                        )
+                        result += '\n'
+                    else:
+                        result += str(item['file_2']) + '\n'
 
                 if item['file_2'] is None:
 
-                    result += replacer * (spacesCount * item['level'] * 4 - 2) + \
-                              '- ' + \
-                              item['key'] + \
-                              ': ' + \
-                              format_val(
-                                  item['file_1'],
-                                  replacer,
-                                  spacesCount + baseSpacesCount
-                              ) + '\n'
+                    result += prekey_replacer + '- ' + item['key'] + ': '
+
+                    if isinstance(item['file_1'], dict):
+
+                        result += format_value(
+                            item['file_1'],
+                            replacer,
+                            spacesCount,
+                            item['level']
+                        )
+                        result += '\n'
+                    else:
+                        result += str(item['file_1']) + '\n'
 
                 if item['file_1'] == item['file_2']:
+                    result += prekey_replacer + '  ' + item['key'] + ': '
 
-                    result += replacer * (spacesCount * item['level'] * 4 - 2) + \
-                              '  ' + \
-                              item['key'] + \
-                              ': ' + \
-                              format_val(
-                                  item['file_1'],
-                                  replacer,
-                                  spacesCount * item['level'] * 4 - 2
-                              ) + '\n'
+                    if isinstance(item['file_1'], dict):
+
+                        result += format_value(
+                            item['file_1'],
+                            replacer,
+                            spacesCount,
+                            item['level']
+                        )
+                        result += '\n'
+                    else:
+                        result += str(item['file_1']) + '\n'
 
                 if item['file_1'] != item['file_2'] \
                         and item['file_1'] is not None \
                         and item['file_2'] is not None:
 
-                    result += replacer * (spacesCount * item['level'] * 4 - 2) + \
-                              '- ' + \
-                              item['key'] + \
-                              ': ' + \
-                              format_val(
-                                  item['file_1'],
-                                  replacer,
-                                  spacesCount + baseSpacesCount,
-                                  item['level']
-                              ) + '\n' + \
-                              replacer * (spacesCount * item['level'] * 4 - 2) + \
-                              '+ ' + \
-                              item['key'] + \
-                              ': ' + \
-                              format_val(
-                                  item['file_2'],
-                                  replacer,
-                                  spacesCount * item['level'] * 4,
-                                  item['level']
-                              ) + \
-                              '\n'
+                    result += prekey_replacer + '- ' + item['key'] + ': '
+
+                    if isinstance(item['file_1'], dict):
+
+                        result += format_value(
+                            item['file_1'],
+                            replacer,
+                            spacesCount,
+                            item['level']
+                        )
+                        result += '\n'
+                    else:
+                        result += str(item['file_1']) + '\n'
+
+                    result += prekey_replacer + '+ ' + item['key'] + ': '
+
+                    if isinstance(item['file_2'], dict):
+
+                        result += format_value(
+                            item['file_2'],
+                            replacer,
+                            spacesCount,
+                            item['level']
+                        )
+                        result += '\n'
+                    else:
+                        result += str(item['file_2']) + '\n'
 
         return result
-    inner_str = inner(obj, replacer, spacesCount)
-    result = '{\n' + inner_str + '}'
+    result = '{\n' + inner(diff, replacer, spacesCount) + '}'
     return result
 
 
-def stringify(obj, replacer=' ', spacesCount=1):
+def format_value(argument, replacer=' ', spacesCount=1, level=0):
 
-    if type(obj) == dict:
-        return stylish(obj, replacer, spacesCount)
-    else:
-        return str(obj)
-
-
-def format_dic_val(subdict, replacer=' ', spacesCount=1, level=1):
-    baseSpacesCount = spacesCount
-
-    def inner(value, replacer, spacesCount, level):
-
+    def inner(argument, replacer=' ', spacesCount=1, level=0):
+        prekey_replacer = replacer * (spacesCount * level * 4 + 4)
+        prebracket_replacer = replacer * (spacesCount * level * 4)
         result = ''
 
-        for i in value:
+        result += '{'
+        for key in argument:
 
-            if isinstance(value[i], dict):
-
-                result += replacer * (spacesCount * level * 4 - 2) + \
-                          '  ' + \
-                          str(i) + \
-                          ': {\n'
-                result += inner(value[i],
-                                replacer,
-                                spacesCount + baseSpacesCount,
-                                level
-                                )
-                pass
+            result += '\n' + prekey_replacer + key + ': '
+            if isinstance(argument[key], dict):
+                result += inner(
+                    argument[key],
+                    replacer,
+                    spacesCount + 1,
+                    level
+                )
             else:
+                result += str(argument[key])
 
-                result += replacer * (spacesCount * level + 4)
-                result += str(i) + ': ' + str(value[i]) + '\n'
-                result += replacer * (spacesCount * level - 4)
+        result += '\n' + prebracket_replacer + '}'
 
         return result
-    formatted = '{\n' + inner(subdict, replacer, spacesCount, level) + '}'
-    return formatted
 
-
-def format_val(val, replacer, spacesCount, level=1):
-
-    if isinstance(val, dict):
-        return format_dic_val(val, replacer, spacesCount, level)
-    else:
-        return str(val)
+    return inner(argument, replacer, spacesCount, level)
