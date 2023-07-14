@@ -8,15 +8,24 @@ parser = argparse.ArgumentParser(
 )
 parser.add_argument('first_file', type=str, help='First file')
 parser.add_argument('second_file', type=str, help='Second_file')
-parser.add_argument('-f', '--format', help='set format of output')
+parser.add_argument(
+    '-f',
+    '--format',
+    type=str,
+    default='stylish',
+    help='set format of output'
+)
 args = parser.parse_args()
 
 
 def main():
     data_1 = get_file_data(args.first_file)
     data_2 = get_file_data(args.second_file)
-
-    print(fu.stylish(fu.get_diff(data_1, data_2)))
+    formatter = args.format
+    diff = fu.get_diff(data_1, data_2)
+    match formatter:
+        case 'stylish':
+            print(fu.stylish(diff))
 
 
 if __name__ == '__main__':
