@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 import argparse
-import gendiff.functions.functions as fu
+from gendiff.formatters.plain import plain
+from gendiff.scripts.get_diff import get_diff
+from gendiff.formatters.stylish import stylish
 from gendiff.scripts.parse_data import get_file_data
+
 
 parser = argparse.ArgumentParser(
     description='Compares two configuration files and shows a difference.'
@@ -22,10 +25,12 @@ def main():
     data_1 = get_file_data(args.first_file)
     data_2 = get_file_data(args.second_file)
     formatter = args.format
-    diff = fu.get_diff(data_1, data_2)
+    diff = get_diff(data_1, data_2)
     match formatter:
         case 'stylish':
-            print(fu.stylish(diff))
+            print(stylish(diff))
+        case 'plain':
+            print(plain(diff))
 
 
 if __name__ == '__main__':
