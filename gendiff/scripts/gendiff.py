@@ -38,3 +38,6 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+def generate_diff():
+    pass
