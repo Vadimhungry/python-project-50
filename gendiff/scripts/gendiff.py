@@ -4,6 +4,7 @@ from gendiff.formatters.plain import plain
 from gendiff.scripts.get_diff import get_diff
 from gendiff.formatters.stylish import stylish
 from gendiff.scripts.parse_data import get_file_data
+from gendiff.formatters.json import jsonify
 
 
 parser = argparse.ArgumentParser(
@@ -31,6 +32,8 @@ def main():
             print(stylish(diff))
         case 'plain':
             print(plain(diff))
+        case 'json':
+            print(jsonify(diff))
 
 
 if __name__ == '__main__':
