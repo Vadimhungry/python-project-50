@@ -1,5 +1,6 @@
-from gendiff import generate_diff
+from gendiff import *
 
 __all__ = (
     'generate_diff',
 )
+
