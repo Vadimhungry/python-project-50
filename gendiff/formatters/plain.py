@@ -33,7 +33,6 @@ def plain(diff, parent=''):
 
 
 def format_val(val):
-    print(val)
     if isinstance(val, dict):
         return '[complex value]'
     if val == 'false':
