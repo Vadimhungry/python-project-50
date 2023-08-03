@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 from gendiff.formatters.plain import plain
-from gendiff.scripts.get_diff import get_diff
+from gendiff.scripts.get_diff import generate_diff
 from gendiff.formatters.stylish import stylish
 from gendiff.scripts.parse_data import get_file_data
 from gendiff.formatters.json import jsonify
@@ -26,7 +26,7 @@ def main():
     data_1 = get_file_data(args.first_file)
     data_2 = get_file_data(args.second_file)
     formatter = args.format
-    diff = get_diff(data_1, data_2)
+    diff = generate_diff(data_1, data_2)
     match formatter:
         case 'stylish':
             print(stylish(diff))
@@ -38,6 +38,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-def generate_diff():
-    pass

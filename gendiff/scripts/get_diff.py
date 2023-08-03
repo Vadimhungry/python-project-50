@@ -1,4 +1,4 @@
-def get_diff(data1, data2):
+def generate_diff(data1, data2):
 
     def inner(data1, data2, level=1, path=''):
 
