@@ -14,10 +14,11 @@ def generate_diff(file1, file2, formatter='stylish'):
         diff = []
 
         for key in sorted(list({**data1, **data2}.keys())):
+
             if key not in data2:
                 diff.append({
                     'key': key,
-                    'file_1': data1[key],
+                    'file_1': format_val(data1[key]),
                     'file_2': None,
                     'level': level,
                     'path': path
@@ -28,7 +29,7 @@ def generate_diff(file1, file2, formatter='stylish'):
                 diff.append({
                     'key': key,
                     'file_1': None,
-                    'file_2': data2[key],
+                    'file_2': format_val(data2[key]),
                     'level': level,
                     'path': path
                 })
@@ -37,7 +38,6 @@ def generate_diff(file1, file2, formatter='stylish'):
 
                 if isinstance(data1[key], dict) \
                         and isinstance(data2[key], dict):
-                    print(path + str(key) + '.')
                     diff.append({
                         'key': key,
 
@@ -52,8 +52,8 @@ def generate_diff(file1, file2, formatter='stylish'):
                 elif data1[key] != data2[key]:
                     diff.append({
                         'key': key,
-                        'file_1': data1[key],
-                        'file_2': data2[key],
+                        'file_1': format_val(data1[key]),
+                        'file_2': format_val(data2[key]),
                         'level': level,
                         'path': path
                     })
@@ -61,8 +61,8 @@ def generate_diff(file1, file2, formatter='stylish'):
                 elif data1[key] == data2[key]:
                     diff.append({
                         'key': key,
-                        'file_1': data1[key],
-                        'file_2': data2[key],
+                        'file_1': format_val(data1[key]),
+                        'file_2': format_val(data2[key]),
                         'level': level,
                         'path': path
                     })
@@ -76,3 +76,10 @@ def generate_diff(file1, file2, formatter='stylish'):
             return plain(diff)
         case 'json':
             return jsonify(diff)
+
+
+def format_val(val):
+    if isinstance(val, bool):
+        return str(val).lower()
+    else:
+        return val
