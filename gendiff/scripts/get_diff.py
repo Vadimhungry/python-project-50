@@ -4,7 +4,7 @@ from gendiff.formatters.plain import plain
 from gendiff.formatters.json import jsonify
 
 
-def generate_diff(file1, file2, formatter):
+def generate_diff(file1, file2, formatter='stylish'):
 
     data1 = get_file_data(file1)
     data2 = get_file_data(file2)
