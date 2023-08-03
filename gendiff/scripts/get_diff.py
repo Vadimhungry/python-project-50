@@ -68,7 +68,8 @@ def generate_diff(file1, file2, formatter='stylish'):
                     })
         return diff
     diff = inner(data1, data2)
-
+    print(data1)
+    print(data2)
     match formatter:
         case 'stylish':
             return stylish(diff)
@@ -81,5 +82,7 @@ def generate_diff(file1, file2, formatter='stylish'):
 def format_val(val):
     if isinstance(val, bool):
         return str(val).lower()
+    if val is None:
+        return 'null'
     else:
         return val
