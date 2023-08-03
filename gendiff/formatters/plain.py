@@ -22,15 +22,9 @@ def plain(diff, parent=''):
                     and item['file_2'] is not None:
                 result += 'Property ' + "'" + item['path'] + item['key'] + "'"
                 result += ' was updated. From '
-                if isinstance(item['file_1'], dict):
-                    result += '[complex value]'
-                else:
-                    result += str(item['file_1'])
+                result += format_val(item['file_1'])
                 result += ' to '
-                if isinstance(item['file_2'], dict):
-                    result += '[complex value]'
-                else:
-                    result += "'" + str(item['file_2']) + "'"
+                result += format_val(item['file_2'])
                 result += '\n'
 
         return result
