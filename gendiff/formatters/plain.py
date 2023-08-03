@@ -11,10 +11,7 @@ def plain(diff, parent=''):
             elif item['file_1'] is None:
                 result += 'Property ' + "'" + item['path'] + item['key'] + "'"
                 result += ' was added with value: '
-                if isinstance(item['file_2'], dict):
-                    result += '[complex value]\n'
-                else:
-                    result += str(item['file_2']) + '\n'
+                result += format_val(item['file_2']) + '\n'
 
             elif item['file_2'] is None:
                 result += 'Property ' + "'" + item['path'] + item['key'] + "'"
@@ -42,5 +39,13 @@ def plain(diff, parent=''):
 
 
 def format_val(val):
+    if isinstance(val, dict):
+        return '[complex value]'
     if val == 'false':
-        pass
+        return 'false'
+    if val == 'true':
+        return 'true'
+    if val == 'null':
+        return 'null'
+    if isinstance(val, str):
+        return "'" + val + "'"
