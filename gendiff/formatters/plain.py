@@ -28,7 +28,7 @@ def plain(diff, parent=''):
                 if isinstance(item['file_1'], dict):
                     result += '[complex value]'
                 else:
-                    result += "'" + str(item['file_1']) + "'"
+                    result += str(item['file_1'])
                 result += ' to '
                 if isinstance(item['file_2'], dict):
                     result += '[complex value]'
