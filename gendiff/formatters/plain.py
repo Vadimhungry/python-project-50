@@ -14,7 +14,7 @@ def plain(diff, parent=''):
                 if isinstance(item['file_2'], dict):
                     result += '[complex value]\n'
                 else:
-                    result += "'" + str(item['file_2']) + "'" + '\n'
+                    result += str(item['file_2']) + '\n'
 
             elif item['file_2'] is None:
                 result += 'Property ' + "'" + item['path'] + item['key'] + "'"
@@ -39,3 +39,8 @@ def plain(diff, parent=''):
         return result
 
     return inner(diff)
+
+
+def format_val(val):
+    if val == 'false':
+        pass
