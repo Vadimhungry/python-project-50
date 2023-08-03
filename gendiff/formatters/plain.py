@@ -25,7 +25,6 @@ def plain(diff, parent=''):
                 result += format_val(item['file_1'])
                 result += ' to '
                 result += format_val(item['file_2'])
-                result += '\n'
 
         return result
 
