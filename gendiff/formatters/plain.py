@@ -28,7 +28,7 @@ def plain(diff, parent=''):
 
         return result
 
-    return inner(diff)
+    return inner(diff)[:-1]
 
 
 def format_val(val):
