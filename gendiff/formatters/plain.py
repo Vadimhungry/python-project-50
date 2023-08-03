@@ -24,7 +24,7 @@ def plain(diff, parent=''):
                 result += ' was updated. From '
                 result += format_val(item['file_1'])
                 result += ' to '
-                result += format_val(item['file_2'])
+                result += format_val(item['file_2']) + '\n'
 
         return result
 
