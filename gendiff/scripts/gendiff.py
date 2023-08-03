@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 import argparse
-from gendiff.formatters.plain import plain
 from gendiff.scripts.get_diff import generate_diff
-from gendiff.formatters.stylish import stylish
-from gendiff.scripts.parse_data import get_file_data
-from gendiff.formatters.json import jsonify
 
 
 parser = argparse.ArgumentParser(
@@ -23,17 +19,9 @@ args = parser.parse_args()
 
 
 def main():
-    data_1 = get_file_data(args.first_file)
-    data_2 = get_file_data(args.second_file)
     formatter = args.format
-    diff = generate_diff(data_1, data_2)
-    match formatter:
-        case 'stylish':
-            print(stylish(diff))
-        case 'plain':
-            print(plain(diff))
-        case 'json':
-            print(jsonify(diff))
+    diff_formatted = generate_diff(args.first_file, args.second_file, formatter)
+    print(diff_formatted)
 
 
 if __name__ == '__main__':

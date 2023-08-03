@@ -1,4 +1,13 @@
-def generate_diff(data1, data2):
+from gendiff.scripts.parse_data import get_file_data
+from gendiff.formatters.stylish import stylish
+from gendiff.formatters.plain import plain
+from gendiff.formatters.json import jsonify
+
+
+def generate_diff(file1, file2, formatter):
+
+    data1 = get_file_data(file1)
+    data2 = get_file_data(file2)
 
     def inner(data1, data2, level=1, path=''):
 
@@ -28,9 +37,10 @@ def generate_diff(data1, data2):
 
                 if isinstance(data1[key], dict) \
                         and isinstance(data2[key], dict):
-
+                    print(path + str(key) + '.')
                     diff.append({
                         'key': key,
+
                         'children': inner(
                             data1[key],
                             data2[key],
@@ -57,5 +67,12 @@ def generate_diff(data1, data2):
                         'path': path
                     })
         return diff
+    diff = inner(data1, data2)
 
-    return inner(data1, data2)
+    match formatter:
+        case 'stylish':
+            return stylish(diff)
+        case 'plain':
+            return plain(diff)
+        case 'json':
+            return jsonify(diff)
