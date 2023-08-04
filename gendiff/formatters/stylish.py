@@ -130,3 +130,7 @@ def format_value(argument, replacer=' ', spacesCount=1, level=0):
         return result
 
     return inner(argument, replacer, spacesCount, level)
+
+
+def create_replacer():
+    pass
