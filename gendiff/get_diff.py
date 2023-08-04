@@ -67,15 +67,10 @@ def generate_diff(file1, file2, formatter='stylish'):
                         'path': path
                     })
         return diff
+
     diff = inner(data1, data2)
 
-    match formatter:
-        case 'stylish':
-            return stylish(diff)
-        case 'plain':
-            return plain(diff)
-        case 'json':
-            return jsonify(diff)
+    return format_diff(diff, formatter)
 
 
 def format_val(val):
@@ -85,3 +80,13 @@ def format_val(val):
         return 'null'
     else:
         return val
+
+
+def format_diff(diff, formatter):
+    match formatter:
+        case 'stylish':
+            return stylish(diff)
+        case 'plain':
+            return plain(diff)
+        case 'json':
+            return jsonify(diff)
