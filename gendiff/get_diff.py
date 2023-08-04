@@ -18,7 +18,7 @@ def generate_diff(file1, file2, formatter='stylish'):
             if key not in data2:
                 diff.append({
                     'key': key,
-                    'file_1': format_val(data1[key]),
+                    'file_1': parse_val(data1[key]),
                     'file_2': None,
                     'level': level,
                     'path': path
@@ -29,7 +29,7 @@ def generate_diff(file1, file2, formatter='stylish'):
                 diff.append({
                     'key': key,
                     'file_1': None,
-                    'file_2': format_val(data2[key]),
+                    'file_2': parse_val(data2[key]),
                     'level': level,
                     'path': path
                 })
@@ -52,8 +52,8 @@ def generate_diff(file1, file2, formatter='stylish'):
                 elif data1[key] != data2[key]:
                     diff.append({
                         'key': key,
-                        'file_1': format_val(data1[key]),
-                        'file_2': format_val(data2[key]),
+                        'file_1': parse_val(data1[key]),
+                        'file_2': parse_val(data2[key]),
                         'level': level,
                         'path': path
                     })
@@ -61,8 +61,8 @@ def generate_diff(file1, file2, formatter='stylish'):
                 elif data1[key] == data2[key]:
                     diff.append({
                         'key': key,
-                        'file_1': format_val(data1[key]),
-                        'file_2': format_val(data2[key]),
+                        'file_1': parse_val(data1[key]),
+                        'file_2': parse_val(data2[key]),
                         'level': level,
                         'path': path
                     })
@@ -73,7 +73,7 @@ def generate_diff(file1, file2, formatter='stylish'):
     return format_diff(diff, formatter)
 
 
-def format_val(val):
+def parse_val(val):
     if isinstance(val, bool):
         return str(val).lower()
     if val is None:
