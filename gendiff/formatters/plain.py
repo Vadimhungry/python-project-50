@@ -36,9 +36,9 @@ def plain(diff, parent=''):
 def format_val(val):
     if isinstance(val, dict):
         return '[complex value]'
-    if val == False:
+    if val is False:
         return 'false'
-    if val == True:
+    if val is True:
         return 'true'
     if val == 'null':
         return 'null'
