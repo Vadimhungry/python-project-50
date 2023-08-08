@@ -40,7 +40,7 @@ def format_val(val):
         return 'false'
     if val is True:
         return 'true'
-    if val == 'null':
+    if val is None:
         return 'null'
     if isinstance(val, str):
         return "'" + val + "'"
