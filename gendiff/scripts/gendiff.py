@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from gendiff.get_diff import generate_diff
-from gendiff.agrparse_work \
+from gendiff.argparse_work \
     import create_parser, get_formatter, get_paths_to_file1_and_file2
 
 
