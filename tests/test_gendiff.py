@@ -1,21 +1,23 @@
 import pytest
-
+from os.path import dirname, abspath
 from gendiff.get_diff import generate_diff
 
+TESTS_DIR = dirname(abspath(__file__))
+FIXTURES_PATH = f"{TESTS_DIR}/fixtures"
 
 @pytest.fixture
 def plain1():
-    return '/Users/Number1/PycharmProjects/python-project-50/tests/fixtures/plain1.json'
+    return f'{FIXTURES_PATH}/plain1.json'
 
 
 @pytest.fixture
 def plain2():
-    return '/Users/Number1/PycharmProjects/python-project-50/tests/fixtures/plain2.json'
+    return f'{FIXTURES_PATH}/plain2.json'
 
 
 @pytest.fixture
 def stylish_plainfile_result():
-    file = open('/Users/Number1/PycharmProjects/python-project-50/tests/fixtures/stylish_plainfile_result.txt', 'r')
+    file = open(f'{FIXTURES_PATH}/stylish_plainfile_result.txt', 'r')
     return file.read()
 
 
