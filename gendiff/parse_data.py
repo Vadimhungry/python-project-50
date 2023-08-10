@@ -18,4 +18,6 @@ def parse(content, format):
         case '.yml' | '.yaml':
             return yaml.load(content, Loader=SafeLoader)
         case _:
-            raise Exception(f'Unknown extension: "{format}"! I can\'t parse it!')
+            raise Exception(
+                f'Unknown extension: "{format}"! I can\'t parse it!'
+            )
