@@ -13,9 +13,20 @@ def plain2():
     return '/Users/Number1/PycharmProjects/python-project-50/tests/fixtures/plain2.json'
 
 
-def test_stylish_formatter_plain_files(plain1, plain2):
-    assert generate_diff(plain1, plain2) == '{\n  - follow: false\n    host: hexlet.io\n  - proxy: 123.234.53.22\n  - timeout: 50\n  + timeout: 20\n  + verbose: true\n}'
+@pytest.fixture
+def stylish_plainfile_result():
+    file = open('/Users/Number1/PycharmProjects/python-project-50/tests/fixtures/stylish_plainfile_result.txt', 'r')
+    return file.read()
 
 
-def test_plain_formatter_plain_files(plain1, plain2):
-    assert generate_diff(plain1, plain2, formatter='plain') == "Property 'follow' was removed\nProperty 'proxy' was removed\nProperty 'timeout' was updated. From 50 to 20\nProperty 'verbose' was added with value: true"
+@pytest.fixture
+def plain_plainfile_result():
+    file = open('/Users/Number1/PycharmProjects/python-project-50/tests/fixtures/plain_plainfile_result.txt')
+    return file.read()
+
+
+def test_stylish_formatter_plain_files(plain1, plain2, stylish_plainfile_result):
+    assert generate_diff(plain1, plain2) == stylish_plainfile_result
+
+def test_plain_formatter_plain_files(plain1, plain2, plain_plainfile_result):
+    assert generate_diff(plain1, plain2, formatter='plain') == plain_plainfile_result
