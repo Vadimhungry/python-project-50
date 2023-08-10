@@ -1,4 +1,10 @@
 # Difference Calculator
+[![hexlet-check](https://github.com/Vadimhungry/python-project-50/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/Vadimhungry/python-project-50/actions/workflows/hexlet-check.yml)
+
+[![Maintainability](https://api.codeclimate.com/v1/badges/55e816a0053e58471fd9/maintainability)](https://codeclimate.com/github/Vadimhungry/python-project-50/maintainability)
+
+[![Test Coverage](https://api.codeclimate.com/v1/badges/55e816a0053e58471fd9/test_coverage)](https://codeclimate.com/github/Vadimhungry/python-project-50/test_coverage)
+
 
 This is command line application. 
 It can compare two files and show the difference between them.
@@ -40,9 +46,3 @@ Step 7(plain formatter):
 Step 8(json formatter):
 [![asciicast](https://asciinema.org/a/BlhenPcGWUXFDtxJUguM55aAL.svg)](https://asciinema.org/a/BlhenPcGWUXFDtxJUguM55aAL)
 
-### Hexlet tests and linter status:
-[![hexlet-check](https://github.com/Vadimhungry/python-project-50/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/Vadimhungry/python-project-50/actions/workflows/hexlet-check.yml)
-
-[![Maintainability](https://api.codeclimate.com/v1/badges/55e816a0053e58471fd9/maintainability)](https://codeclimate.com/github/Vadimhungry/python-project-50/maintainability)
-
-[![Test Coverage](https://api.codeclimate.com/v1/badges/55e816a0053e58471fd9/test_coverage)](https://codeclimate.com/github/Vadimhungry/python-project-50/test_coverage)
