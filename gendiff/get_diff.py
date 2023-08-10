@@ -70,6 +70,3 @@ def build_diff_tree(data1, data2, level=1, path=''):
                     'path': path
                 })
     return diff
-
-
-
