@@ -1,72 +1,73 @@
 def stylish(diff, replacer=' ', spacesCount=1):
+    result = '{\n' + stylize(diff, replacer, spacesCount) + '}'
+    return result
 
-    def inner(diff, replacer=' ', spacesCount=1):
 
-        result = ''
+def stylize(diff, replacer=' ', spacesCount=1):
 
-        for item in diff:
+    result = ''
 
-            prekey_replacer = replacer * (spacesCount * item['level'] * 4 - 2)
-            prebracket_replacer = replacer * (spacesCount * item['level'] * 4)
+    for item in diff:
 
-            match item['action']:
+        prekey_replacer = replacer * (spacesCount * item['level'] * 4 - 2)
+        prebracket_replacer = replacer * (spacesCount * item['level'] * 4)
 
-                case 'nested':
-                    result += prekey_replacer + '  '
-                    result += item['key'] + ':' + ' {\n'
-                    result += inner(
-                        item['children'],
-                        replacer,
-                        spacesCount
-                    )
-                    result += prebracket_replacer + '}\n'
+        match item['action']:
 
-                case 'added':
-                    result += prekey_replacer + '+ ' + item['key'] + ': '
-                    result += to_str(
-                        item['file_2'],
-                        replacer,
-                        spacesCount,
-                        item['level']
-                    )
+            case 'nested':
+                result += prekey_replacer + '  '
+                result += item['key'] + ':' + ' {\n'
+                result += stylize(
+                    item['children'],
+                    replacer,
+                    spacesCount
+                )
+                result += prebracket_replacer + '}\n'
 
-                case 'deleted':
-                    result += prekey_replacer + '- ' + item['key'] + ': '
-                    result += to_str(
-                        item['file_1'],
-                        replacer,
-                        spacesCount,
-                        item['level']
-                    )
+            case 'added':
+                result += prekey_replacer + '+ ' + item['key'] + ': '
+                result += to_str(
+                    item['file_2'],
+                    replacer,
+                    spacesCount,
+                    item['level']
+                )
 
-                case 'unchanged':
-                    result += prekey_replacer + '  ' + item['key'] + ': '
-                    result += to_str(
-                        item['file_1'],
-                        replacer,
-                        spacesCount,
-                        item['level']
-                    )
+            case 'deleted':
+                result += prekey_replacer + '- ' + item['key'] + ': '
+                result += to_str(
+                    item['file_1'],
+                    replacer,
+                    spacesCount,
+                    item['level']
+                )
 
-                case 'updated':
-                    result += prekey_replacer + '- ' + item['key'] + ': '
-                    result += to_str(
-                        item['file_1'],
-                        replacer,
-                        spacesCount,
-                        item['level']
-                    )
+            case 'unchanged':
+                result += prekey_replacer + '  ' + item['key'] + ': '
+                result += to_str(
+                    item['file_1'],
+                    replacer,
+                    spacesCount,
+                    item['level']
+                )
 
-                    result += prekey_replacer + '+ ' + item['key'] + ': '
-                    result += to_str(
-                        item['file_2'],
-                        replacer,
-                        spacesCount,
-                        item['level']
-                    )
+            case 'updated':
+                result += prekey_replacer + '- ' + item['key'] + ': '
+                result += to_str(
+                    item['file_1'],
+                    replacer,
+                    spacesCount,
+                    item['level']
+                )
 
-        return result
-    result = '{\n' + inner(diff, replacer, spacesCount) + '}'
+                result += prekey_replacer + '+ ' + item['key'] + ': '
+                result += to_str(
+                    item['file_2'],
+                    replacer,
+                    spacesCount,
+                    item['level']
+                )
+
     return result
 
 
