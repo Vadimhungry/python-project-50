@@ -5,6 +5,7 @@ from gendiff.get_diff import generate_diff
 TESTS_DIR = dirname(abspath(__file__))
 FIXTURES_PATH = f"{TESTS_DIR}/fixtures"
 
+
 @pytest.fixture
 def plain1():
     return f'{FIXTURES_PATH}/plain1.json'
