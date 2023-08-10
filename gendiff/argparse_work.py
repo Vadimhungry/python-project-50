@@ -1,7 +1,7 @@
 import argparse
 
 
-def create_parser():
+def parse():
     parser = argparse.ArgumentParser(
         description='Compares two configuration files and shows a difference.'
     )
@@ -14,13 +14,6 @@ def create_parser():
         default='stylish',
         help='set format of output'
     )
-    return parser
-
-
-def get_formatter(parser):
-    return parser.parse_args().format
-
-
-def get_paths_to_file1_and_file2(parser):
     args = parser.parse_args()
-    return args.first_file, args.second_file
+
+    return args.first_file, args.second_file, args.format
