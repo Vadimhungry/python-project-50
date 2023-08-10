@@ -1,7 +1,5 @@
 from gendiff.parse_data import get_file_data
-from gendiff.formatters.stylish import stylish
-from gendiff.formatters.plain import plain
-from gendiff.formatters.json import jsonify
+from gendiff.formatters.format import format_diff
 
 
 def generate_diff(file1, file2, formatter='stylish'):
@@ -74,11 +72,4 @@ def build_diff_tree(data1, data2, level=1, path=''):
     return diff
 
 
-def format_diff(diff, formatter):
-    match formatter:
-        case 'stylish':
-            return stylish(diff)
-        case 'plain':
-            return plain(diff)
-        case 'json':
-            return jsonify(diff)
+
