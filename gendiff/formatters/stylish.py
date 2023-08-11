@@ -104,15 +104,15 @@ def to_str(argument, replacer=' ', spaces_count=1, level=0):
             else:
                 match argument:
                     case True:
-                        return 'true\n'
+                        result += 'true\n'
                     case False:
-                        return 'false\n'
+                        result += 'false\n'
                     case None:
-                        return 'null\n'
+                        result += 'null\n'
                     case _:
-                        return str(argument) + '\n'
+                        result += str(argument) + '\n'
 
-        result += '\n' + prebracket_replacer + ' Й}Й'
+        result += '\n' + prebracket_replacer + ' }'
         return result + '\n'
 
     else:
