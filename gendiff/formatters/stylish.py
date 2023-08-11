@@ -1,11 +1,12 @@
 def stylish(diff, replacer=' ', spacesCount=1):
-    result = '{\n' + stylize(diff, replacer, spacesCount) + '}'
+    result = '{\n' + \
+             ''.join(flatten(stylize(diff, replacer, spacesCount))) + '}'
     return result
 
 
 def stylize(diff, replacer=' ', spacesCount=1, level=1):
 
-    result = ''
+    result = []
 
     for item in diff:
 
@@ -15,58 +16,69 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
         match item['action']:
 
             case 'nested':
-                result += prekey_replacer + '  '
-                result += item['key'] + ':' + ' {\n'
-                result += stylize(
-                    item['children'],
-                    replacer,
-                    spacesCount,
-                    level + 1
+                result.append(
+                    prekey_replacer + '  ' + item['key'] + ':' + ' {\n')
+                result.append(
+                    stylize(
+                        item['children'],
+                        replacer,
+                        spacesCount,
+                        level + 1
+                    )
                 )
-                result += prebracket_replacer + '}\n'
+                result.append(prebracket_replacer + '}\n')
 
             case 'added':
-                result += prekey_replacer + '+ ' + item['key'] + ': '
-                result += to_str(
-                    item['new_value'],
-                    replacer,
-                    spacesCount,
-                    level
+                result.append(
+                    prekey_replacer + '+ ' + item['key'] + ': ' +
+                    to_str(
+                        item['new_value'],
+                        replacer,
+                        spacesCount,
+                        level
+                    )
                 )
 
             case 'deleted':
-                result += prekey_replacer + '- ' + item['key'] + ': '
-                result += to_str(
-                    item['old_value'],
-                    replacer,
-                    spacesCount,
-                    level
+                result.append(
+                    prekey_replacer + '- ' + item['key'] + ': ' +
+                    to_str(
+                        item['old_value'],
+                        replacer,
+                        spacesCount,
+                        level
+                    )
                 )
 
             case 'unchanged':
-                result += prekey_replacer + '  ' + item['key'] + ': '
-                result += to_str(
-                    item['old_value'],
-                    replacer,
-                    spacesCount,
-                    level
+                result.append(
+                    prekey_replacer + '  ' + item['key'] + ': ' +
+                    to_str(
+                        item['old_value'],
+                        replacer,
+                        spacesCount,
+                        level
+                    )
                 )
 
             case 'updated':
-                result += prekey_replacer + '- ' + item['key'] + ': '
-                result += to_str(
-                    item['old_value'],
-                    replacer,
-                    spacesCount,
-                    level
-                )
+                result.append(
+                    prekey_replacer + '- ' + item['key'] + ': ' +
+                    to_str(
+                        item['old_value'],
+                        replacer,
+                        spacesCount,
+                        level
+                    ) +
+                    prekey_replacer + '+ ' + item['key'] + ': ' +
+                    to_str(
+                        item['new_value'],
+                        replacer,
+                        spacesCount,
+                        level
+                    )
 
-                result += prekey_replacer + '+ ' + item['key'] + ': '
-                result += to_str(
-                    item['new_value'],
-                    replacer,
-                    spacesCount,
-                    level
+
                 )
 
     return result
@@ -116,3 +128,19 @@ def to_str(val, replacer=' ', spacesCount=1, level=0):
         return format_dict_val(val, replacer, spacesCount, level) + '\n'
     else:
         return format_plain_val(val) + '\n'
+
+
+def flatten(tree):
+    result = []
+
+    def walk(subtree):
+        for item in subtree:
+
+            if isinstance(item, list):
+                walk(item)
+            else:
+                result.append(item)
+
+    walk(tree)
+
+    return result
