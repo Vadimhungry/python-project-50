@@ -7,7 +7,7 @@ def generate_diff(file1, file2, formatter='stylish'):
     data1 = get_file_data(file1)
     data2 = get_file_data(file2)
     diff = build_diff_tree(data1, data2)
-
+    print(diff)
     return format_diff(diff, formatter)
 
 
@@ -23,7 +23,6 @@ def build_diff_tree(data1, data2, level=1, path=''):
                 'old_value': data1[key],
                 'level': level,
                 'path': path
-
             })
 
         elif key not in data1:

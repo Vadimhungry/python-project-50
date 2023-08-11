@@ -3,33 +3,39 @@ def plain(diff):
 
 
 def plainize(diff):
-    result = ''
-    for item in diff:
-        match item['action']:
 
-            case 'nested':
-                result += plainize(item['children'])
+    def inner(diff, path=''):
+        result = ''
+        for item in diff:
+            match item['action']:
 
-            case 'added':
-                result += 'Property ' + "'"
-                result += item['path'] + item['key'] + "'"
-                result += ' was added with value: '
-                result += format_val(item['new_value']) + '\n'
+                case 'nested':
+                    result += inner(
+                        item['children'],
+                        path + str(item['key']) + '.'
+                    )
 
-            case 'deleted':
-                result += 'Property ' + "'"
-                result += item['path'] + item['key'] + "'"
-                result += ' was removed\n'
+                case 'added':
+                    result += 'Property ' + "'"
+                    result += path + item['key'] + "'"
+                    result += ' was added with value: '
+                    result += format_val(item['new_value']) + '\n'
 
-            case 'updated':
-                result += 'Property ' + "'"
-                result += item['path'] + item['key'] + "'"
-                result += ' was updated. From '
-                result += format_val(item['old_value'])
-                result += ' to '
-                result += format_val(item['new_value']) + '\n'
+                case 'deleted':
+                    result += 'Property ' + "'"
+                    result += path + item['key'] + "'"
+                    result += ' was removed\n'
 
-    return result
+                case 'updated':
+                    result += 'Property ' + "'"
+                    result += path + item['key'] + "'"
+                    result += ' was updated. From '
+                    result += format_val(item['old_value'])
+                    result += ' to '
+                    result += format_val(item['new_value']) + '\n'
+
+        return result
+    return inner(diff)
 
 
 def format_val(val):
