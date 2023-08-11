@@ -18,5 +18,7 @@ def parse(content, format):
             return yaml.load(content, Loader=SafeLoader)
         case _:
             raise Exception(
-                f'Unknown extension: "{format}"! I can\'t parse it! Use "gendiff -h" to find extensions available'
+                f'Unknown extension: "{format}"! '
+                f'I can\'t parse it! '
+                f'Use "gendiff -h" to find extensions available'
             )
