@@ -21,8 +21,7 @@ def build_diff_tree(data1, data2, level=1, path=''):
                 'key': key,
                 'action': 'deleted',
                 'old_value': data1[key],
-                'level': level,
-                'path': path
+                'level': level
             })
 
         elif key not in data1:
@@ -30,8 +29,7 @@ def build_diff_tree(data1, data2, level=1, path=''):
                 'key': key,
                 'action': 'added',
                 'new_value': data2[key],
-                'level': level,
-                'path': path
+                'level': level
             })
 
         elif key in data1 and key in data2:
@@ -44,8 +42,8 @@ def build_diff_tree(data1, data2, level=1, path=''):
                     'children': build_diff_tree(
                         data1[key],
                         data2[key],
-                        level + 1,
-                        path + str(key) + '.'),
+                        level + 1
+                    ),
                     'level': level,
                 })
 
@@ -55,8 +53,7 @@ def build_diff_tree(data1, data2, level=1, path=''):
                     'action': 'updated',
                     'old_value': data1[key],
                     'new_value': data2[key],
-                    'level': level,
-                    'path': path
+                    'level': level
                 })
 
             elif data1[key] == data2[key]:
@@ -65,7 +62,6 @@ def build_diff_tree(data1, data2, level=1, path=''):
                     'action': 'unchanged',
                     'old_value': data1[key],
                     'new_value': data2[key],
-                    'level': level,
-                    'path': path
+                    'level': level
                 })
     return diff
