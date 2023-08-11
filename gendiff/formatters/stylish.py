@@ -91,9 +91,10 @@ def to_str(argument, replacer=' ', spaces_count=1, level=0):
         prekey_replacer = replacer * (spaces_count * level * 4 + 4)
         prebracket_replacer = replacer * (spaces_count * level * 4)
         result += '{'
+        result += '\n' + prekey_replacer + key + ': '
         for key in argument:
 
-            result += '\n' + prekey_replacer + key + ': '
+
             if isinstance(argument[key], dict):
                 result += to_str(
                     argument[key],
@@ -104,15 +105,15 @@ def to_str(argument, replacer=' ', spaces_count=1, level=0):
             else:
                 match argument:
                     case True:
-                        result += 'true\n'
+                        return 'true\n'
                     case False:
-                        result += 'false\n'
+                        return 'false\n'
                     case None:
-                        result += 'null\n'
+                        return 'null\n'
                     case _:
-                        result += str(argument) + '\n'
+                        return str(argument) + '\n'
 
-        result += '\n' + prebracket_replacer + ' }'
+        result += '\n' + prebracket_replacer + ' Й}Й'
         return result + '\n'
 
     else:
