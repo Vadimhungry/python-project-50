@@ -1,17 +1,17 @@
-def stylish(diff, replacer=' ', spacesCount=1):
+def stylish(diff, replacer=' ', spaces_count=1):
     result = '{\n' + \
-             ''.join(flatten(stylize(diff, replacer, spacesCount))) + '}'
+             ''.join(flatten(stylize(diff, replacer, spaces_count))) + '}'
     return result
 
 
-def stylize(diff, replacer=' ', spacesCount=1, level=1):
+def stylize(diff, replacer=' ', spaces_count=1, level=1):
 
     result = []
 
     for item in diff:
 
-        prekey_replacer = replacer * (spacesCount * level * 4 - 2)
-        prebracket_replacer = replacer * (spacesCount * level * 4)
+        prekey_replacer = replacer * (spaces_count * level * 4 - 2)
+        prebracket_replacer = replacer * (spaces_count * level * 4)
 
         match item['action']:
 
@@ -22,7 +22,7 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
                     stylize(
                         item['children'],
                         replacer,
-                        spacesCount,
+                        spaces_count,
                         level + 1
                     )
                 )
@@ -34,7 +34,7 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
                     to_str(
                         item['new_value'],
                         replacer,
-                        spacesCount,
+                        spaces_count,
                         level
                     )
                 )
@@ -45,7 +45,7 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
                     to_str(
                         item['old_value'],
                         replacer,
-                        spacesCount,
+                        spaces_count,
                         level
                     )
                 )
@@ -56,7 +56,7 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
                     to_str(
                         item['old_value'],
                         replacer,
-                        spacesCount,
+                        spaces_count,
                         level
                     )
                 )
@@ -67,7 +67,7 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
                     to_str(
                         item['old_value'],
                         replacer,
-                        spacesCount,
+                        spaces_count,
                         level
                     )
                 )
@@ -76,7 +76,7 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
                     to_str(
                         item['new_value'],
                         replacer,
-                        spacesCount,
+                        spaces_count,
                         level
                     )
 
@@ -85,50 +85,46 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
     return result
 
 
-def to_str(val, replacer=' ', spacesCount=1, level=0):
+def to_str(argument, replacer=' ', spaces_count=1, level=0):
+    result = ''
+    if isinstance(argument, dict):
+        prekey_replacer = replacer * (spaces_count * level * 4 + 4)
+        prebracket_replacer = replacer * (spaces_count * level * 4)
+        result += '{'
+        for key in argument:
 
-    def format_dict_val(val, replacer=' ', spacesCount=1, level=0):
+            result += '\n' + prekey_replacer + key + ': '
+            if isinstance(argument[key], dict):
+                result += to_str(
+                    argument[key],
+                    replacer,
+                    spaces_count + 1,
+                    level
+                )
+            else:
+                match argument:
+                    case True:
+                        return 'true\n'
+                    case False:
+                        return 'false\n'
+                    case None:
+                        return 'null\n'
+                    case _:
+                        return str(argument) + '\n'
 
-        def inner(argument, replacer=' ', spacesCount=1, level=0):
-            prekey_replacer = replacer * (spacesCount * level * 4 + 4)
-            prebracket_replacer = replacer * (spacesCount * level * 4)
-            result = ''
+        result += '\n' + prebracket_replacer + '}'
+        return result + '\n'
 
-            result += '{'
-            for key in argument:
-
-                result += '\n' + prekey_replacer + key + ': '
-                if isinstance(argument[key], dict):
-                    result += inner(
-                        argument[key],
-                        replacer,
-                        spacesCount + 1,
-                        level
-                    )
-                else:
-                    result += format_plain_val(argument[key])
-
-            result += '\n' + prebracket_replacer + '}'
-
-            return result
-
-        return inner(val, replacer, spacesCount, level)
-
-    def format_plain_val(val):
-        match val:
-            case True:
-                return 'true'
-            case False:
-                return 'false'
-            case None:
-                return 'null'
-            case _:
-                return str(val)
-
-    if isinstance(val, dict):
-        return format_dict_val(val, replacer, spacesCount, level) + '\n'
     else:
-        return format_plain_val(val) + '\n'
+        match argument:
+            case True:
+                return 'true\n'
+            case False:
+                return 'false\n'
+            case None:
+                return 'null\n'
+            case _:
+                return str(argument) + '\n'
 
 
 def flatten(tree):
