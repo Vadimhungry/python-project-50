@@ -29,8 +29,8 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
                 result.append(prebracket_replacer + '}\n')
 
             case 'added':
+                result.append(prekey_replacer + '+ ' + item['key'] + ': ')
                 result.append(
-                    prekey_replacer + '+ ' + item['key'] + ': ' +\
                     to_str(
                         item['new_value'],
                         replacer,
@@ -40,8 +40,8 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
                 )
 
             case 'deleted':
+                result.append(prekey_replacer + '- ' + item['key'] + ': ')
                 result.append(
-                    prekey_replacer + '- ' + item['key'] + ': ' +
                     to_str(
                         item['old_value'],
                         replacer,
@@ -51,8 +51,8 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
                 )
 
             case 'unchanged':
+                result.append(prekey_replacer + '  ' + item['key'] + ': ')
                 result.append(
-                    prekey_replacer + '  ' + item['key'] + ': ' +
                     to_str(
                         item['old_value'],
                         replacer,
@@ -62,15 +62,17 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
                 )
 
             case 'updated':
+                result.append(prekey_replacer + '- ' + item['key'] + ': ')
                 result.append(
-                    prekey_replacer + '- ' + item['key'] + ': ' +
                     to_str(
                         item['old_value'],
                         replacer,
                         spacesCount,
                         level
-                    ) +
-                    prekey_replacer + '+ ' + item['key'] + ': ' +
+                    )
+                )
+                result.append(prekey_replacer + '+ ' + item['key'] + ': ')
+                result.append(
                     to_str(
                         item['new_value'],
                         replacer,
