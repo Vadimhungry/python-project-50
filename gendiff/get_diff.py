@@ -20,7 +20,7 @@ def build_diff_tree(data1, data2, level=1, path=''):
             diff.append({
                 'key': key,
                 'action': 'deleted',
-                'file_1': data1[key],
+                'old_value': data1[key],
                 'level': level,
                 'path': path
 
@@ -30,7 +30,7 @@ def build_diff_tree(data1, data2, level=1, path=''):
             diff.append({
                 'key': key,
                 'action': 'added',
-                'file_2': data2[key],
+                'new_value': data2[key],
                 'level': level,
                 'path': path
             })
@@ -54,8 +54,8 @@ def build_diff_tree(data1, data2, level=1, path=''):
                 diff.append({
                     'key': key,
                     'action': 'updated',
-                    'file_1': data1[key],
-                    'file_2': data2[key],
+                    'old_value': data1[key],
+                    'new_value': data2[key],
                     'level': level,
                     'path': path
                 })
@@ -64,8 +64,8 @@ def build_diff_tree(data1, data2, level=1, path=''):
                 diff.append({
                     'key': key,
                     'action': 'unchanged',
-                    'file_1': data1[key],
-                    'file_2': data2[key],
+                    'old_value': data1[key],
+                    'new_value': data2[key],
                     'level': level,
                     'path': path
                 })

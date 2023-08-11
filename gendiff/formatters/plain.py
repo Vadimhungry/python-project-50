@@ -14,7 +14,7 @@ def plainize(diff):
                 result += 'Property ' + "'"
                 result += item['path'] + item['key'] + "'"
                 result += ' was added with value: '
-                result += format_val(item['file_2']) + '\n'
+                result += format_val(item['new_value']) + '\n'
 
             case 'deleted':
                 result += 'Property ' + "'"
@@ -25,9 +25,9 @@ def plainize(diff):
                 result += 'Property ' + "'"
                 result += item['path'] + item['key'] + "'"
                 result += ' was updated. From '
-                result += format_val(item['file_1'])
+                result += format_val(item['old_value'])
                 result += ' to '
-                result += format_val(item['file_2']) + '\n'
+                result += format_val(item['new_value']) + '\n'
 
     return result
 

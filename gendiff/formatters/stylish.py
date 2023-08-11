@@ -27,7 +27,7 @@ def stylize(diff, replacer=' ', spacesCount=1):
             case 'added':
                 result += prekey_replacer + '+ ' + item['key'] + ': '
                 result += to_str(
-                    item['file_2'],
+                    item['new_value'],
                     replacer,
                     spacesCount,
                     item['level']
@@ -36,7 +36,7 @@ def stylize(diff, replacer=' ', spacesCount=1):
             case 'deleted':
                 result += prekey_replacer + '- ' + item['key'] + ': '
                 result += to_str(
-                    item['file_1'],
+                    item['old_value'],
                     replacer,
                     spacesCount,
                     item['level']
@@ -45,7 +45,7 @@ def stylize(diff, replacer=' ', spacesCount=1):
             case 'unchanged':
                 result += prekey_replacer + '  ' + item['key'] + ': '
                 result += to_str(
-                    item['file_1'],
+                    item['old_value'],
                     replacer,
                     spacesCount,
                     item['level']
@@ -54,7 +54,7 @@ def stylize(diff, replacer=' ', spacesCount=1):
             case 'updated':
                 result += prekey_replacer + '- ' + item['key'] + ': '
                 result += to_str(
-                    item['file_1'],
+                    item['old_value'],
                     replacer,
                     spacesCount,
                     item['level']
@@ -62,7 +62,7 @@ def stylize(diff, replacer=' ', spacesCount=1):
 
                 result += prekey_replacer + '+ ' + item['key'] + ': '
                 result += to_str(
-                    item['file_2'],
+                    item['new_value'],
                     replacer,
                     spacesCount,
                     item['level']
