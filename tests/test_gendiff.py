@@ -24,7 +24,7 @@ def stylish_plainfile_result():
 
 @pytest.fixture
 def plain_plainfile_result():
-    file = open('/Users/Number1/PycharmProjects/python-project-50/tests/fixtures/plain_plainfile_result.txt')
+    file = open(f'{FIXTURES_PATH}/plain_plainfile_result.txt')
     return file.read()
 
 
