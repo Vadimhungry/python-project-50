@@ -91,10 +91,9 @@ def to_str(argument, replacer=' ', spaces_count=1, level=0):
         prekey_replacer = replacer * (spaces_count * level * 4 + 4)
         prebracket_replacer = replacer * (spaces_count * level * 4)
         result += '{'
-        result += '\n' + prekey_replacer + key + ': '
         for key in argument:
 
-
+            result += '\n' + prekey_replacer + key + ':Q'
             if isinstance(argument[key], dict):
                 result += to_str(
                     argument[key],
