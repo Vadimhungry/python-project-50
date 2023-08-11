@@ -30,7 +30,7 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
 
             case 'added':
                 result.append(
-                    prekey_replacer + '+ ' + item['key'] + ': ' +
+                    prekey_replacer + '+ ' + item['key'] + ': ' +\
                     to_str(
                         item['new_value'],
                         replacer,
@@ -77,7 +77,6 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
                         spacesCount,
                         level
                     )
-
 
                 )
 
