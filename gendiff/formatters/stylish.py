@@ -3,14 +3,14 @@ def stylish(diff, replacer=' ', spacesCount=1):
     return result
 
 
-def stylize(diff, replacer=' ', spacesCount=1):
+def stylize(diff, replacer=' ', spacesCount=1, level=1):
 
     result = ''
 
     for item in diff:
 
-        prekey_replacer = replacer * (spacesCount * item['level'] * 4 - 2)
-        prebracket_replacer = replacer * (spacesCount * item['level'] * 4)
+        prekey_replacer = replacer * (spacesCount * level * 4 - 2)
+        prebracket_replacer = replacer * (spacesCount * level * 4)
 
         match item['action']:
 
@@ -20,7 +20,8 @@ def stylize(diff, replacer=' ', spacesCount=1):
                 result += stylize(
                     item['children'],
                     replacer,
-                    spacesCount
+                    spacesCount,
+                    level + 1
                 )
                 result += prebracket_replacer + '}\n'
 
@@ -30,7 +31,7 @@ def stylize(diff, replacer=' ', spacesCount=1):
                     item['new_value'],
                     replacer,
                     spacesCount,
-                    item['level']
+                    level
                 )
 
             case 'deleted':
@@ -39,7 +40,7 @@ def stylize(diff, replacer=' ', spacesCount=1):
                     item['old_value'],
                     replacer,
                     spacesCount,
-                    item['level']
+                    level
                 )
 
             case 'unchanged':
@@ -48,7 +49,7 @@ def stylize(diff, replacer=' ', spacesCount=1):
                     item['old_value'],
                     replacer,
                     spacesCount,
-                    item['level']
+                    level
                 )
 
             case 'updated':
@@ -57,7 +58,7 @@ def stylize(diff, replacer=' ', spacesCount=1):
                     item['old_value'],
                     replacer,
                     spacesCount,
-                    item['level']
+                    level
                 )
 
                 result += prekey_replacer + '+ ' + item['key'] + ': '
@@ -65,7 +66,7 @@ def stylize(diff, replacer=' ', spacesCount=1):
                     item['new_value'],
                     replacer,
                     spacesCount,
-                    item['level']
+                    level
                 )
 
     return result

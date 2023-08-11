@@ -10,7 +10,7 @@ def generate_diff(file1, file2, formatter='stylish'):
     return format_diff(diff, formatter)
 
 
-def build_diff_tree(data1, data2, level=1, path=''):
+def build_diff_tree(data1, data2, level=1):
     diff = []
 
     for key in sorted(list({**data1, **data2}.keys())):
@@ -20,7 +20,7 @@ def build_diff_tree(data1, data2, level=1, path=''):
                 'key': key,
                 'action': 'deleted',
                 'old_value': data1[key],
-                'level': level
+                # 'level': level
             })
 
         elif key not in data1:
@@ -28,7 +28,7 @@ def build_diff_tree(data1, data2, level=1, path=''):
                 'key': key,
                 'action': 'added',
                 'new_value': data2[key],
-                'level': level
+                # 'level': level
             })
 
         elif key in data1 and key in data2:
@@ -41,7 +41,7 @@ def build_diff_tree(data1, data2, level=1, path=''):
                     'children': build_diff_tree(
                         data1[key],
                         data2[key],
-                        level + 1
+                        # level + 1
                     ),
                     'level': level,
                 })
@@ -52,7 +52,7 @@ def build_diff_tree(data1, data2, level=1, path=''):
                     'action': 'updated',
                     'old_value': data1[key],
                     'new_value': data2[key],
-                    'level': level
+                    # 'level': level
                 })
 
             elif data1[key] == data2[key]:
@@ -61,6 +61,6 @@ def build_diff_tree(data1, data2, level=1, path=''):
                     'action': 'unchanged',
                     'old_value': data1[key],
                     'new_value': data2[key],
-                    'level': level
+                    # 'level': level
                 })
     return diff
