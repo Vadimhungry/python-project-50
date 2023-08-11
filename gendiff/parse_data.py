@@ -11,7 +11,6 @@ def get_file_data(file):
 
 
 def parse(content, format):
-
     match format:
         case '.json':
             return json.load(content)
@@ -19,5 +18,5 @@ def parse(content, format):
             return yaml.load(content, Loader=SafeLoader)
         case _:
             raise Exception(
-                f'Unknown extension: "{format}"! I can\'t parse it!'
+                f'Unknown extension: "{format}"! I can\'t parse it! Use "gendiff -h" to find extensions available'
             )

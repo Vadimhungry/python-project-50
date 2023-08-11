@@ -11,3 +11,7 @@ def format_diff(diff, formatter):
             return plain(diff)
         case 'json':
             return jsonify(diff)
+        case _:
+            raise Exception(
+                f'Formatter "{formatter}" does not exist! Use "gendiff -h" to find formats available'
+            )
