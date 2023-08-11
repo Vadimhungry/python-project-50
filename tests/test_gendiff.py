@@ -28,9 +28,6 @@ def plain_plainfile_result():
     return file.read()
 
 
-def test_stylish_formatter_plain_files(plain1, plain2, stylish_plainfile_result):
+def test_plain_files(plain1, plain2, stylish_plainfile_result, plain_plainfile_result):
     assert generate_diff(plain1, plain2) == stylish_plainfile_result
-
-
-def test_plain_formatter_plain_files(plain1, plain2, plain_plainfile_result):
     assert generate_diff(plain1, plain2, formatter='plain') == plain_plainfile_result
