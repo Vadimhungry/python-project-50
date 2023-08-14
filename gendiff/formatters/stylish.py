@@ -115,9 +115,9 @@ def to_str(argument, replacer=' ', spacesCount=1, level=0):
                         result += str(argument[key])
 
         result += '\n' + prebracket_replacer + '}'
-        return result + '\n'
+        return result
     else:
-        return format_plain_val(argument)
+        return format_plain_val(argument) + '\n'
 
 # def stringify(val, replacer=' ', spacesCount=1, level=0):
 #     prekey_replacer = replacer * (spacesCount * level * 4 + 4)
