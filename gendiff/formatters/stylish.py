@@ -74,16 +74,16 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
 
 def to_str(argument, replacer=' ', spacesCount=1, level=0):
     result = ''
-    def format_plain_val(val):
-        match val:
-            case True:
-                return 'true'
-            case False:
-                return 'false'
-            case None:
-                return 'null'
-            case _:
-                return str(val)
+    # def format_plain_val(val):
+    #     match val:
+    #         case True:
+    #             return 'true'
+    #         case False:
+    #             return 'false'
+    #         case None:
+    #             return 'null'
+    #         case _:
+    #             return str(val)
 
     if isinstance(argument, dict):
         prekey_replacer = replacer * (spacesCount * level * 4 + 4)
@@ -116,7 +116,15 @@ def to_str(argument, replacer=' ', spacesCount=1, level=0):
 
         result += '\n' + prebracket_replacer + '}'
     else:
-        result += format_plain_val(argument)
+        match argument[key]:
+            case True:
+                result += 'true'
+            case False:
+                result += 'false'
+            case None:
+                result += 'null'
+            case _:
+                result += str(argument[key])
 
     return result + '\n'
 
