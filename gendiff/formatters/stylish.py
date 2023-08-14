@@ -103,7 +103,7 @@ def to_str(argument, replacer=' ', spacesCount=1, level=0):
                     case _:
                         result += str(argument[key])
 
-                result += 'QQQ\n'
+
 
         result += '\n' + prebracket_replacer + '}'
 
@@ -117,5 +117,6 @@ def to_str(argument, replacer=' ', spacesCount=1, level=0):
                 result += 'null'
             case _:
                 result += str(argument)
+        result += 'QQQ\n'
 
     return result
