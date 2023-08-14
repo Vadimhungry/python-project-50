@@ -33,6 +33,7 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
                     spacesCount,
                     level
                 )
+                result += '\n'
 
             case 'deleted':
                 result += prekey_replacer + '- ' + item['key'] + ': '
