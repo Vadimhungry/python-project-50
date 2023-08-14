@@ -74,12 +74,32 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
 
 def to_str(val, replacer=' ', spacesCount=1, level=0):
 
-    # def format_dict_val(val, replacer=' ', spacesCount=1, level=0):
-    #
-    #     def inner(argument, replacer=' ', spacesCount=1, level=0):
-    #
-    #
-    #     return inner(val, replacer, spacesCount, level)
+    def format_dict_val(val, replacer=' ', spacesCount=1, level=0):
+
+        def inner(argument, replacer=' ', spacesCount=1, level=0):
+            prekey_replacer = replacer * (spacesCount * level * 4 + 4)
+            prebracket_replacer = replacer * (spacesCount * level * 4)
+            result = ''
+
+            result += '{'
+            for key in argument:
+
+                result += '\n' + prekey_replacer + key + ': '
+                if isinstance(argument[key], dict):
+                    result += inner(
+                        argument[key],
+                        replacer,
+                        spacesCount + 1,
+                        level
+                    )
+                else:
+                    result += format_plain_val(argument[key])
+
+            result += '\n' + prebracket_replacer + '}'
+
+            return result
+
+        return inner(val, replacer, spacesCount, level)
 
     def format_plain_val(val):
         match val:
@@ -94,27 +114,6 @@ def to_str(val, replacer=' ', spacesCount=1, level=0):
 
     if isinstance(val, dict):
 
-        prekey_replacer = replacer * (spacesCount * level * 4 + 4)
-        prebracket_replacer = replacer * (spacesCount * level * 4)
-        result = ''
-
-        result += '{'
-        for key in val:
-
-            result += '\n' + prekey_replacer + key + ': '
-            if isinstance(val[key], dict):
-                result += to_str(
-                    val[key],
-                    replacer,
-                    spacesCount + 1,
-                    level
-                )
-            else:
-                result += format_plain_val(val[key])
-
-        result += '\n' + prebracket_replacer + '}'
-
-        return result
-
+        return format_dict_val(val, replacer, spacesCount, level) + '\n'
     else:
         return format_plain_val(val) + '\n'
