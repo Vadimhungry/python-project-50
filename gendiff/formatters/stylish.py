@@ -114,7 +114,7 @@ def to_str(val, replacer=' ', spacesCount=1, level=0):
 
         result += '\n' + prebracket_replacer + '}'
 
-        return result + '\n'
+        return result
 
     else:
         return format_plain_val(val) + '\n'
