@@ -88,7 +88,7 @@ def to_str(val, replacer=' ', spacesCount=1, level=0):
                     argument[key],
                     replacer,
                     spacesCount + 1,
-                    level
+                    level + 1
                 )
             else:
                 result += format_plain_val(argument[key])
