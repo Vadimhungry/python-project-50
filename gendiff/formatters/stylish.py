@@ -114,8 +114,8 @@ def to_str(argument, replacer=' ', spacesCount=1, level=0):
                     case _:
                         result += str(argument[key])
 
-        result += prebracket_replacer + '}'
-        return result + '\n'
+        result += '\n' + prebracket_replacer + '}'
+        return result
     else:
 
         return format_plain_val(argument) + '\n'
