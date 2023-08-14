@@ -74,32 +74,32 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
 
 def to_str(val, replacer=' ', spacesCount=1, level=0):
 
-    def format_dict_val(val, replacer=' ', spacesCount=1, level=0):
 
-        def inner(argument, replacer=' ', spacesCount=1, level=0):
-            prekey_replacer = replacer * (spacesCount * level * 4 + 4)
-            prebracket_replacer = replacer * (spacesCount * level * 4)
-            result = ''
 
-            result += '{'
-            for key in argument:
+    def format_dict_val(argument, replacer=' ', spacesCount=1, level=0):
+        prekey_replacer = replacer * (spacesCount * level * 4 + 4)
+        prebracket_replacer = replacer * (spacesCount * level * 4)
+        result = ''
 
-                result += '\n' + prekey_replacer + key + ': '
-                if isinstance(argument[key], dict):
-                    result += inner(
-                        argument[key],
-                        replacer,
-                        spacesCount + 1,
-                        level
-                    )
-                else:
-                    result += format_plain_val(argument[key])
+        result += '{'
+        for key in argument:
 
-            result += '\n' + prebracket_replacer + '}'
+            result += '\n' + prekey_replacer + key + ': '
+            if isinstance(argument[key], dict):
+                result += inner(
+                    argument[key],
+                    replacer,
+                    spacesCount + 1,
+                    level
+                )
+            else:
+                result += format_plain_val(argument[key])
 
-            return result
+        result += '\n' + prebracket_replacer + '}'
 
-        return inner(val, replacer, spacesCount, level)
+        return result
+
+
 
     def format_plain_val(val):
         match val:
