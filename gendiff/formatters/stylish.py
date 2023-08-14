@@ -117,6 +117,6 @@ def to_str(argument, replacer=' ', spacesCount=1, level=0):
                 result += 'null'
             case _:
                 result += str(argument)
-        result += 'QQQ\n'
+        result += '\n'
 
     return result
