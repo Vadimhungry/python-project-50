@@ -79,7 +79,6 @@ def to_str(argument, replacer=' ', spacesCount=1, level=0):
         prekey_replacer = replacer * (spacesCount * level * 4 + 4)
         prebracket_replacer = replacer * (spacesCount * level * 4)
 
-
         result += '{'
         for key in argument:
 
@@ -105,7 +104,8 @@ def to_str(argument, replacer=' ', spacesCount=1, level=0):
                     case _:
                         result += str(argument[key])
 
-        result += '\n' + prebracket_replacer + '}'
+        result += '\n' + prebracket_replacer + '}\n'
+
     else:
         match argument:
             case True:
@@ -117,4 +117,4 @@ def to_str(argument, replacer=' ', spacesCount=1, level=0):
             case _:
                 result += str(argument)
 
-    return result + '\n'
+    return result
