@@ -1,5 +1,5 @@
 def stylish(diff, replacer=' ', spacesCount=1):
-    result = '{\n' + stylize(diff, replacer, spacesCount) + '}'
+    result = '{' + stylize(diff, replacer, spacesCount) + '\n}'
     return result
 
 
@@ -12,18 +12,20 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
         prekey_replacer = replacer * (spacesCount * level * 4 - 2)
         prebracket_replacer = replacer * (spacesCount * level * 4)
 
+        result += '\n'
+
         match item['action']:
 
             case 'nested':
                 result += prekey_replacer + '  '
-                result += item['key'] + ':' + ' {\n'
+                result += item['key'] + ':' + ' {'
                 result += stylize(
                     item['children'],
                     replacer,
                     spacesCount,
                     level + 1
                 )
-                result += prebracket_replacer + '}\n'
+                result += '\n' + prebracket_replacer + '}'
 
             case 'added':
                 result += prekey_replacer + '+ ' + item['key'] + ': '
@@ -61,6 +63,8 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
                     level
                 )
 
+                result += '\n'
+
                 result += prekey_replacer + '+ ' + item['key'] + ': '
                 result += to_str(
                     item['new_value'],
@@ -68,7 +72,7 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
                     spacesCount,
                     level
                 )
-    result += '\n'
+    # result += '\n'
     return result
 
 
@@ -103,7 +107,7 @@ def to_str(argument, replacer=' ', spacesCount=1, level=0):
                     case _:
                         result += str(argument[key])
 
-        result += 'QQQ\nQQQ' + prebracket_replacer + '}\n'
+        result += '\n' + prebracket_replacer + '}'
 
     else:
         match argument:
@@ -115,6 +119,6 @@ def to_str(argument, replacer=' ', spacesCount=1, level=0):
                 result += 'null'
             case _:
                 result += str(argument)
-        result += '\n'
+        # result += '\n'
 
     return result
