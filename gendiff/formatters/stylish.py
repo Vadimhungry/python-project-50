@@ -97,7 +97,7 @@ def to_str(val, replacer=' ', spacesCount=1, level=0):
 
             result += '\n' + prebracket_replacer + '}'
 
-            return result + '\n'
+            return result
 
         return inner(val, replacer, spacesCount, level)
 
@@ -114,7 +114,7 @@ def to_str(val, replacer=' ', spacesCount=1, level=0):
 
     if isinstance(val, dict):
 
-        return format_dict_val(val, replacer, spacesCount, level)
+        return format_dict_val(val, replacer, spacesCount, level) + '\n'
     else:
         return format_plain_val(val) + '\n'
 
