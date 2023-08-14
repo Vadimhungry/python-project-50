@@ -91,7 +91,6 @@ def to_str(argument, replacer=' ', spacesCount=1, level=0):
                     spacesCount + 1,
                     level
                 )
-                result += '\n'
 
             else:
                 match argument[key]:
