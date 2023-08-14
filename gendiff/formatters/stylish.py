@@ -97,9 +97,9 @@ def to_str(val, replacer=' ', spacesCount=1, level=0):
 
             result += '\n' + prebracket_replacer + '}'
 
-            return result
+            return result + '\n'
 
-        return inner(val, replacer, spacesCount, level) + '\n'
+        return inner(val, replacer, spacesCount, level)
 
     def format_plain_val(val):
         match val:
