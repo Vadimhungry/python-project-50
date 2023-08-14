@@ -119,24 +119,24 @@ def to_str(val, replacer=' ', spacesCount=1, level=0):
         return format_plain_val(val) + '\n'
 
 
-def stringify(val, replacer=' ', spacesCount=1, level=0):
-    prekey_replacer = replacer * (spacesCount * level * 4 + 4)
-    prebracket_replacer = replacer * (spacesCount * level * 4)
-    result = ''
-
-    result += '{'
-    for key in argument:
-
-        result += '\n' + prekey_replacer + key + ': '
-        if isinstance(argument[key], dict):
-            result += inner(
-                argument[key],
-                replacer,
-                spacesCount + 1,
-                level
-            )
-        else:
-            result += format_plain_val(argument[key])
-
-    result += '\n' + prebracket_replacer + '}'
-    return result
+# def stringify(val, replacer=' ', spacesCount=1, level=0):
+#     prekey_replacer = replacer * (spacesCount * level * 4 + 4)
+#     prebracket_replacer = replacer * (spacesCount * level * 4)
+#     result = ''
+#
+#     result += '{'
+#     for key in argument:
+#
+#         result += '\n' + prekey_replacer + key + ': '
+#         if isinstance(argument[key], dict):
+#             result += inner(
+#                 argument[key],
+#                 replacer,
+#                 spacesCount + 1,
+#                 level
+#             )
+#         else:
+#             result += format_plain_val(argument[key])
+#
+#     result += '\n' + prebracket_replacer + '}'
+#     return result
