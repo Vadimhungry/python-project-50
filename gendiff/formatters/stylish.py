@@ -91,6 +91,7 @@ def to_str(argument, replacer=' ', spacesCount=1, level=0):
                     spacesCount + 1,
                     level
                 )
+                result += '\n'
 
             else:
                 match argument[key]:
@@ -102,8 +103,6 @@ def to_str(argument, replacer=' ', spacesCount=1, level=0):
                         result += 'null'
                     case _:
                         result += str(argument[key])
-
-
 
         result += prebracket_replacer + '}\n'
 
