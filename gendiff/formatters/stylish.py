@@ -105,7 +105,7 @@ def to_str(argument, replacer=' ', spacesCount=1, level=0):
 
 
 
-        result += '\n' + prebracket_replacer + '}'
+        result += '\n' + prebracket_replacer + '}\n'
 
     else:
         match argument:
