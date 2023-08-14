@@ -95,13 +95,15 @@ def to_str(argument, replacer=' ', spacesCount=1, level=0):
             else:
                 match argument[key]:
                     case True:
-                        result += 'true' + '\n'
+                        result += 'true'
                     case False:
-                        result += 'false' + '\n'
+                        result += 'false'
                     case None:
-                        result += 'null' + '\n'
+                        result += 'null'
                     case _:
-                        result += str(argument[key]) + '\n'
+                        result += str(argument[key])
+
+                result += 'QQQ\n'
 
         result += '\n' + prebracket_replacer + '}'
 
