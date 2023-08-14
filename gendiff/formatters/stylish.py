@@ -1,143 +1,117 @@
-def stylish(diff, replacer=' ', spaces_count=1):
-    result = '{\n' + \
-             ''.join(flatten(stylize(diff, replacer, spaces_count))) + '}'
+def stylish(diff, replacer=' ', spacesCount=1):
+    result = '{\n' + stylize(diff, replacer, spacesCount) + '}'
     return result
 
 
-def stylize(diff, replacer=' ', spaces_count=1, level=1):
+def stylize(diff, replacer=' ', spacesCount=1):
 
-    result = []
+    result = ''
 
     for item in diff:
 
-        prekey_replacer = replacer * (spaces_count * level * 4 - 2)
-        prebracket_replacer = replacer * (spaces_count * level * 4)
+        prekey_replacer = replacer * (spacesCount * item['level'] * 4 - 2)
+        prebracket_replacer = replacer * (spacesCount * item['level'] * 4)
 
         match item['action']:
 
             case 'nested':
-                result.append(
-                    prekey_replacer + '  ' + item['key'] + ':' + ' {\n')
-                result.append(
-                    stylize(
-                        item['children'],
-                        replacer,
-                        spaces_count,
-                        level + 1
-                    )
+                result += prekey_replacer + '  '
+                result += item['key'] + ':' + ' {\n'
+                result += stylize(
+                    item['children'],
+                    replacer,
+                    spacesCount
                 )
-                result.append(prebracket_replacer + '}\n')
+                result += prebracket_replacer + '}\n'
 
             case 'added':
-                result.append(prekey_replacer + '+ ' + item['key'] + ': ')
-                result.append(
-                    to_str(
-                        item['new_value'],
-                        replacer,
-                        spaces_count,
-                        level
-                    )
+                result += prekey_replacer + '+ ' + item['key'] + ': '
+                result += to_str(
+                    item['file_2'],
+                    replacer,
+                    spacesCount,
+                    item['level']
                 )
 
             case 'deleted':
-                result.append(prekey_replacer + '- ' + item['key'] + ': ')
-                result.append(
-                    to_str(
-                        item['old_value'],
-                        replacer,
-                        spaces_count,
-                        level
-                    )
+                result += prekey_replacer + '- ' + item['key'] + ': '
+                result += to_str(
+                    item['file_1'],
+                    replacer,
+                    spacesCount,
+                    item['level']
                 )
 
             case 'unchanged':
-                result.append(prekey_replacer + '  ' + item['key'] + ': ')
-                result.append(
-                    to_str(
-                        item['old_value'],
-                        replacer,
-                        spaces_count,
-                        level
-                    )
+                result += prekey_replacer + '  ' + item['key'] + ': '
+                result += to_str(
+                    item['file_1'],
+                    replacer,
+                    spacesCount,
+                    item['level']
                 )
 
             case 'updated':
-                result.append(prekey_replacer + '- ' + item['key'] + ': ')
-                result.append(
-                    to_str(
-                        item['old_value'],
-                        replacer,
-                        spaces_count,
-                        level
-                    )
-                )
-                result.append(prekey_replacer + '+ ' + item['key'] + ': ')
-                result.append(
-                    to_str(
-                        item['new_value'],
-                        replacer,
-                        spaces_count,
-                        level
-                    )
-
-                )
-
-    return result
-
-
-def to_str(argument, replacer=' ', spaces_count=1, level=0):
-    result = ''
-    if isinstance(argument, dict):
-        prekey_replacer = replacer * (spaces_count * level * 4 + 4)
-        prebracket_replacer = replacer * (spaces_count * level * 4)
-        result += '{'
-        for key in argument:
-
-            result += '\n' + prekey_replacer + key + ':Q'
-            if isinstance(argument[key], dict):
+                result += prekey_replacer + '- ' + item['key'] + ': '
                 result += to_str(
-                    argument[key],
+                    item['file_1'],
                     replacer,
-                    spaces_count + 1,
-                    level
+                    spacesCount,
+                    item['level']
                 )
-            else:
-                match argument:
-                    case True:
-                        return 'true\n'
-                    case False:
-                        return 'false\n'
-                    case None:
-                        return 'null\n'
-                    case _:
-                        return str(argument) + '\n'
 
-        result += '\n' + prebracket_replacer + ' Й}Й'
-        return result + '\n'
-
-    else:
-        match argument:
-            case True:
-                return 'true\n'
-            case False:
-                return 'false\n'
-            case None:
-                return 'null\n'
-            case _:
-                return str(argument) + '\n'
-
-
-def flatten(tree):
-    result = []
-
-    def walk(subtree):
-        for item in subtree:
-
-            if isinstance(item, list):
-                walk(item)
-            else:
-                result.append(item)
-
-    walk(tree)
+                result += prekey_replacer + '+ ' + item['key'] + ': '
+                result += to_str(
+                    item['file_2'],
+                    replacer,
+                    spacesCount,
+                    item['level']
+                )
 
     return result
+
+
+def to_str(val, replacer=' ', spacesCount=1, level=0):
+
+    def format_dict_val(val, replacer=' ', spacesCount=1, level=0):
+
+        def inner(argument, replacer=' ', spacesCount=1, level=0):
+            prekey_replacer = replacer * (spacesCount * level * 4 + 4)
+            prebracket_replacer = replacer * (spacesCount * level * 4)
+            result = ''
+
+            result += '{'
+            for key in argument:
+
+                result += '\n' + prekey_replacer + key + ': '
+                if isinstance(argument[key], dict):
+                    result += inner(
+                        argument[key],
+                        replacer,
+                        spacesCount + 1,
+                        level
+                    )
+                else:
+                    result += format_plain_val(argument[key])
+
+            result += '\n' + prebracket_replacer + '}'
+
+            return result
+
+        return inner(val, replacer, spacesCount, level)
+
+    def format_plain_val(val):
+        match val:
+            case True:
+                return 'true'
+            case False:
+                return 'false'
+            case None:
+                return 'null'
+            case _:
+                return str(val)
+
+    if isinstance(val, dict):
+        return format_dict_val(val, replacer, spacesCount, level) + '\n'
+    else:
+        return format_plain_val(val) + '\n'
