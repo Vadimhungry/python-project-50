@@ -72,29 +72,7 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
     return result
 
 
-def to_str(val, replacer=' ', spacesCount=1, level=0):
-
-    def format_dict_val(argument, replacer=' ', spacesCount=1, level=0):
-        prekey_replacer = replacer * (spacesCount * level * 4 + 4)
-        prebracket_replacer = replacer * (spacesCount * level * 4)
-        result = ''
-
-        result += '{'
-        for key in argument:
-
-            result += '\n' + prekey_replacer + key + ': '
-            if isinstance(argument[key], dict):
-                result += format_dict_val(
-                    argument[key],
-                    replacer,
-                    spacesCount + 1,
-                    level
-                )
-            else:
-                result += format_plain_val(argument[key])
-
-        result += '\n' + prebracket_replacer + '}'
-        return result
+def to_str(argument, replacer=' ', spacesCount=1, level=0):
 
     def format_plain_val(val):
         match val:
@@ -107,11 +85,40 @@ def to_str(val, replacer=' ', spacesCount=1, level=0):
             case _:
                 return str(val)
 
-    if isinstance(val, dict):
+    if isinstance(argument, dict):
+        prekey_replacer = replacer * (spacesCount * level * 4 + 4)
+        prebracket_replacer = replacer * (spacesCount * level * 4)
+        result = ''
 
-        return format_dict_val(val, replacer, spacesCount, level) + '\n'
+        result += '{'
+        for key in argument:
+
+            result += '\n' + prekey_replacer + key + ': '
+
+            if isinstance(argument[key], dict):
+                result += to_str(
+                    argument[key],
+                    replacer,
+                    spacesCount + 1,
+                    level
+                )
+
+            else:
+                match argument[key]:
+                    case True:
+                        result += 'true'
+                    case False:
+                        result += 'false'
+                    case None:
+                        result += 'null'
+                    case _:
+                        result += str(argument[key])
+
+        result += '\n' + prebracket_replacer + '}'
+        return result + '\n'
     else:
-        return format_plain_val(val) + '\n'
+
+        return format_plain_val(argument) + '\n'
 
 # def stringify(val, replacer=' ', spacesCount=1, level=0):
 #     prekey_replacer = replacer * (spacesCount * level * 4 + 4)
