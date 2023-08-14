@@ -99,7 +99,7 @@ def to_str(val, replacer=' ', spacesCount=1, level=0):
 
             return result
 
-        return inner(val, replacer, spacesCount, level)
+        return inner(val, replacer, spacesCount, level) + '\n'
 
     def format_plain_val(val):
         match val:
@@ -114,6 +114,29 @@ def to_str(val, replacer=' ', spacesCount=1, level=0):
 
     if isinstance(val, dict):
 
-        return format_dict_val(val, replacer, spacesCount, level) + '\n'
+        return format_dict_val(val, replacer, spacesCount, level)
     else:
         return format_plain_val(val) + '\n'
+
+
+def stringify(val, replacer=' ', spacesCount=1, level=0):
+    prekey_replacer = replacer * (spacesCount * level * 4 + 4)
+    prebracket_replacer = replacer * (spacesCount * level * 4)
+    result = ''
+
+    result += '{'
+    for key in argument:
+
+        result += '\n' + prekey_replacer + key + ': '
+        if isinstance(argument[key], dict):
+            result += inner(
+                argument[key],
+                replacer,
+                spacesCount + 1,
+                level
+            )
+        else:
+            result += format_plain_val(argument[key])
+
+    result += '\n' + prebracket_replacer + '}'
+    return result
