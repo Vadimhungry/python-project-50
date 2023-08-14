@@ -73,7 +73,7 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
 
 
 def to_str(argument, replacer=' ', spacesCount=1, level=0):
-
+    result = ''
     def format_plain_val(val):
         match val:
             case True:
@@ -88,7 +88,7 @@ def to_str(argument, replacer=' ', spacesCount=1, level=0):
     if isinstance(argument, dict):
         prekey_replacer = replacer * (spacesCount * level * 4 + 4)
         prebracket_replacer = replacer * (spacesCount * level * 4)
-        result = ''
+
 
         result += '{'
         for key in argument:
@@ -115,9 +115,10 @@ def to_str(argument, replacer=' ', spacesCount=1, level=0):
                         result += str(argument[key])
 
         result += '\n' + prebracket_replacer + '}'
-        return result + '\n'
     else:
-        return format_plain_val(argument) + '\n'
+        result += format_plain_val(argument)
+
+    return result + '\n'
 
 # def stringify(val, replacer=' ', spacesCount=1, level=0):
 #     prekey_replacer = replacer * (spacesCount * level * 4 + 4)
