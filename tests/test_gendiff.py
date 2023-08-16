@@ -42,8 +42,6 @@ def plain_plainfile_result():
 def stylish_nestedfile_result():
     file = open(f'{FIXTURES_PATH}/stylish_nested_result.txt')
     return file.read()
-
-
 def test_plain_files(plain1, plain2, stylish_plainfile_result, plain_plainfile_result):
     assert generate_diff(plain1, plain2) == stylish_plainfile_result
     assert generate_diff(plain1, plain2, formatter='plain') == plain_plainfile_result

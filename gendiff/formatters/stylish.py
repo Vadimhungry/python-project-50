@@ -72,7 +72,6 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
                     spacesCount,
                     level
                 )
-    # result += '\n'
     return result
 
 
