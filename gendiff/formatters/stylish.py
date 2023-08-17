@@ -11,7 +11,7 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
         prekey_replacer = replacer * (spacesCount * level * 4 - 2)
         prebracket_replacer = replacer * (spacesCount * level * 4)
 
-        result.append('\n') 
+        result.append('\n')
 
         match item['action']:
 
@@ -28,8 +28,8 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
                 result.append(f'\n{prebracket_replacer}{"}"}')
 
             case 'added':
-                result.append(prekey_replacer + '+ ' + item['key'] + ': ')
-                result.append( 
+                result.append(f'{prekey_replacer}+ {item["key"]}: ')
+                result.append(
                     to_str(
                         item['new_value'],
                         replacer,
@@ -48,7 +48,7 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
                         level
                     )
                 )
-                
+
             case 'unchanged':
                 result.append(prekey_replacer + '  ' + item['key'] + ': ')
                 result.append(
