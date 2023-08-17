@@ -39,7 +39,7 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
                 )
 
             case 'deleted':
-                result.append(prekey_replacer + '- ' + item['key'] + ': ')
+                result.append(f'{prekey_replacer}- {item["key"]}: ')
                 result.append(
                     to_str(
                         item['old_value'],
@@ -50,7 +50,7 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
                 )
 
             case 'unchanged':
-                result.append(prekey_replacer + '  ' + item['key'] + ': ')
+                result.append(f'{prekey_replacer}  {item["key"]}: ')
                 result.append(
                     to_str(
                         item['old_value'],
@@ -59,8 +59,9 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
                         level
                     )
                 )
+
             case 'updated':
-                result.append(prekey_replacer + '- ' + item['key'] + ': ')
+                result.append(f'{prekey_replacer}- {item["key"]}: ')
                 result.append(
                     to_str(
                         item['old_value'],
@@ -86,44 +87,34 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
 
 
 def to_str(argument, replacer=' ', spacesCount=1, level=0):
-    result = ''
+    result = []
 
     if isinstance(argument, dict):
         prekey_replacer = replacer * (spacesCount * level * 4 + 4)
         prebracket_replacer = replacer * (spacesCount * level * 4)
 
-        result += '{'
+        result.append('{')
         for key in argument:
 
-            result += '\n' + prekey_replacer + key + ': '
+            result.append('\n' + prekey_replacer + key + ': ')
 
-            result += to_str(
-                argument[key],
-                replacer,
-                spacesCount + 1,
-                level
+            result.append(
+                to_str(
+                    argument[key],
+                    replacer,
+                    spacesCount + 1,
+                    level
+                )
             )
-        result += '\n' + prebracket_replacer + '}'
+        result.append('\n' + prebracket_replacer + '}')
 
     if isinstance(argument, bool):
-        result += str(argument).lower()
+        result.append(str(argument).lower())
     if argument is None:
-        result += 'null'
+        result.append('null')
     if isinstance(argument, str):
-        result += argument
+        result.append(argument)
     if isinstance(argument, int) and not isinstance(argument, bool):
-        result += str(argument)
+        result.append(str(argument))
 
-    # else:
-    #     match argument:
-    #         case True:
-    #             result += 'true'
-    #         case False:
-    #             result += 'false'
-    #         case None:
-    #             result += 'null'
-    #         case _:
-    #             result += str(argument)
-    #     # result += '\n'
-
-    return result
+    return ''.join(result)
