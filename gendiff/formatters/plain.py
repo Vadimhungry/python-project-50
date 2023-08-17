@@ -40,13 +40,11 @@ def plainize(diff, path=''):
 def format_val(val):
     if isinstance(val, dict):
         return '[complex value]'
-    if val is False:
-        return 'false'
-    if val is True:
-        return 'true'
-    if val is None:
-        return 'null'
+    if isinstance(val, bool):
+        return str(val).lower()
     if isinstance(val, str):
         return "'" + val + "'"
+    if val is None:
+        return 'null'
     else:
         return str(val)
