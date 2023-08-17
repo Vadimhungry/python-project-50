@@ -81,7 +81,6 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
                         level
                     )
                 )
-                # result += '\n' + prebracket_replacer + 'AAA'
 
     return ''.join(result)
 
@@ -96,7 +95,7 @@ def to_str(argument, replacer=' ', spacesCount=1, level=0):
         result.append('{')
         for key in argument:
 
-            result.append('\n' + prekey_replacer + key + ': ')
+            result.append(f'\n{prekey_replacer}{key}: ')
 
             result.append(
                 to_str(
@@ -106,7 +105,7 @@ def to_str(argument, replacer=' ', spacesCount=1, level=0):
                     level
                 )
             )
-        result.append('\n' + prebracket_replacer + '}')
+        result.append(f'\n{prebracket_replacer}{"}"}')
 
     if isinstance(argument, bool):
         result.append(str(argument).lower())
