@@ -1,5 +1,5 @@
 def stylish(diff, replacer=' ', spacesCount=1):
-    return stylize(diff, replacer, spacesCount)
+    return '{' + stylize(diff, replacer, spacesCount) + '\n}'
 
 
 def stylize(diff, replacer=' ', spacesCount=1, level=1):
@@ -88,37 +88,33 @@ def to_str(argument, replacer=' ', spacesCount=1, level=0):
 
             result += '\n' + prekey_replacer + key + ': '
 
-            if isinstance(argument[key], dict):
-                result += to_str(
-                    argument[key],
-                    replacer,
-                    spacesCount + 1,
-                    level
-                )
-
-            else:
-                match argument[key]:
-                    case True:
-                        result += 'true'
-                    case False:
-                        result += 'false'
-                    case None:
-                        result += 'null'
-                    case _:
-                        result += str(argument[key])
-
+            result += to_str(
+                argument[key],
+                replacer,
+                spacesCount + 1,
+                level
+            )
         result += '\n' + prebracket_replacer + '}'
 
-    else:
-        match argument:
-            case True:
-                result += 'true'
-            case False:
-                result += 'false'
-            case None:
-                result += 'null'
-            case _:
-                result += str(argument)
-        # result += '\n'
+    if isinstance(argument, bool):
+        result += str(argument).lower()
+    if argument is None:
+        result += 'null'
+    if isinstance(argument, str):
+        result += argument
+    if isinstance(argument, int) and not isinstance(argument, bool):
+        result += str(argument)
+
+    # else:
+    #     match argument:
+    #         case True:
+    #             result += 'true'
+    #         case False:
+    #             result += 'false'
+    #         case None:
+    #             result += 'null'
+    #         case _:
+    #             result += str(argument)
+    #     # result += '\n'
 
     return result
