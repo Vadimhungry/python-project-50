@@ -1,6 +1,5 @@
 def stylish(diff, replacer=' ', spacesCount=1):
-    result = '{' + stylize(diff, replacer, spacesCount) + '\n}'
-    return result
+    return stylize(diff, replacer, spacesCount)
 
 
 def stylize(diff, replacer=' ', spacesCount=1, level=1):
@@ -18,7 +17,7 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
 
             case 'nested':
                 result += prekey_replacer + '  '
-                result += item['key'] + ':' + ' {'
+                result += item['key'] + ': {'
                 result += stylize(
                     item['children'],
                     replacer,
@@ -35,6 +34,7 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
                     spacesCount,
                     level
                 )
+
 
             case 'deleted':
                 result += prekey_replacer + '- ' + item['key'] + ': '
@@ -72,6 +72,8 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
                     spacesCount,
                     level
                 )
+                # result += '\n' + prebracket_replacer + 'AAA'
+
     return result
 
 
