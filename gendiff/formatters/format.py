@@ -16,3 +16,4 @@ def format_diff(diff, formatter):
                 f'Formatter "{formatter}" does not exist! '
                 f'Use "gendiff -h" to find formats available'
             )
+# from 
