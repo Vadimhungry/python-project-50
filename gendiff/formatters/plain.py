@@ -22,7 +22,6 @@ def plainize(diff, path=''):
                 result.append(
                     f"{format_val(item['new_value'])}\n"
                 )
-                
 
             case 'deleted':
                 result.append(
