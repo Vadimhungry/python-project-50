@@ -11,7 +11,7 @@ def plainize(diff, path=''):
                 result.append(
                     plainize(
                         item['children'],
-                        path + str(item['key']) + '.'
+                        f'{path}{str(item["key"])}.'
                     )
                 )
 

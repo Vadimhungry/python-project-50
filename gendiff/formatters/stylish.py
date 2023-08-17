@@ -1,10 +1,12 @@
 def stylish(diff, replacer=' ', spacesCount=1):
-    return '{' + stylize(diff, replacer, spacesCount) + '\n}'
+    return stylize(diff, replacer, spacesCount)
 
 
 def stylize(diff, replacer=' ', spacesCount=1, level=1):
 
     result = []
+    if level == 1:
+        result.append('{')
 
     for item in diff:
 
@@ -82,6 +84,8 @@ def stylize(diff, replacer=' ', spacesCount=1, level=1):
                     )
                 )
 
+    if level == 1:
+        result.append('\n}')
     return ''.join(result)
 
 
