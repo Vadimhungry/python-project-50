@@ -57,30 +57,30 @@ def stylize(diff, replacer=' ', spaces_count=1, level=1):
     return '\n'.join(result)
 
 
-def to_str(argument, replacer=' ', spaces_count=1, level=0):
+def to_str(val, replacer=' ', spaces_count=1, level=0):
     result = []
 
-    if isinstance(argument, dict):
+    if isinstance(val, dict):
         prekey_replacer = replacer * (spaces_count * level * 4 + 4)
         prebracket_replacer = replacer * (spaces_count * level * 4)
 
         result.append('{')
-        for key in argument:
+        for key in val:
 
             result.append(
                 f'\n{prekey_replacer}{key}: '
-                f'{to_str(argument[key], replacer, spaces_count + 1, level)}'
+                f'{to_str(val[key], replacer, spaces_count + 1, level)}'
             )
 
         result.append(f'\n{prebracket_replacer}{"}"}')
 
-    if isinstance(argument, bool):
-        result.append(str(argument).lower())
-    if argument is None:
+    if isinstance(val, bool):
+        result.append(str(val).lower())
+    if val is None:
         result.append('null')
-    if isinstance(argument, str):
-        result.append(argument)
-    if isinstance(argument, int) and not isinstance(argument, bool):
-        result.append(str(argument))
+    if isinstance(val, str):
+        result.append(val)
+    if isinstance(val, int) and not isinstance(val, bool):
+        result.append(str(val))
 
     return ''.join(result)
