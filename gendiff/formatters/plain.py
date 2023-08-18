@@ -45,5 +45,4 @@ def format_val(val):
         return str(val).lower()
     if isinstance(val, str):
         return f"'{val}'"
-    if isinstance(val, int):
-        return str(val)
+    return str(val)
