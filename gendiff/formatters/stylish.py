@@ -17,43 +17,76 @@ def stylize(diff, replacer=' ', spaces_count=1, level=1):
                 result.append(
                     f'{prekey_replacer}  {item["key"]}: {"{"}'
                 )
+                kids = stylize(
+                    item["children"],
+                    replacer, spaces_count,
+                    level + 1
+                )
                 result.append(
-                    f'{stylize(item["children"], replacer, spaces_count, level + 1)}'
+                    f'{kids}'
                     f'\n{prebracket_replacer}{"}"}'
                 )
 
             case 'added':
+                stringed_val = to_str(
+                    item["new_value"],
+                    replacer,
+                    spaces_count,
+                    level
+                )
                 result.append(
                     f'{prekey_replacer}+ {item["key"]}: '
-                    f'{to_str(item["new_value"], replacer, spaces_count, level)}'
+                    f'{stringed_val}'
                 )
 
             case 'deleted':
+                stringed_val = to_str(
+                    item["old_value"],
+                    replacer,
+                    spaces_count,
+                    level
+                )
                 result.append(
                     f'{prekey_replacer}- {item["key"]}: '
-                    f'{to_str(item["old_value"], replacer, spaces_count, level)}'
+                    f'{stringed_val}'
                 )
 
             case 'unchanged':
+                stringed_val = to_str(
+                    item["old_value"],
+                    replacer,
+                    spaces_count,
+                    level
+                )
                 result.append(
                     f'{prekey_replacer}  {item["key"]}: '
-                    f'{to_str(item["old_value"], replacer, spaces_count, level)}'
+                    f'{stringed_val}'
                 )
 
             case 'updated':
+                stringed_old_val = to_str(
+                    item["old_value"],
+                    replacer,
+                    spaces_count,
+                    level
+                )
                 result.append(
                     f'{prekey_replacer}- {item["key"]}: '
-                    f'{to_str(item["old_value"], replacer, spaces_count, level)}'
+                    f'{stringed_old_val}'
                 )
 
+                stringed_new_val = to_str(
+                    item["new_value"],
+                    replacer,
+                    spaces_count,
+                    level
+                )
                 result.append(
                     f'{prekey_replacer}+ {item["key"]}: '
-                    f'{to_str(item["new_value"], replacer, spaces_count, level)}'
+                    f'{stringed_new_val}'
                 )
-
     if level == 1:
-        result.insert(0, '{')
-        result.append('}')
+        result = ['{'] + result + ['}']
     return '\n'.join(result)
 
 
