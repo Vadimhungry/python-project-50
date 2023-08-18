@@ -1,5 +1,5 @@
 def plain(diff):
-    return plainize(diff)[:-1]
+    return plainize(diff)
 
 
 def plainize(diff, path=''):
@@ -18,38 +18,32 @@ def plainize(diff, path=''):
             case 'added':
                 result.append(
                     f"Property '{path}{item['key']}' was added with value: "
-                )
-                result.append(
-                    f"{format_val(item['new_value'])}\n"
+                    f"{format_val(item['new_value'])}"
                 )
 
             case 'deleted':
                 result.append(
-                    f"Property '{path}{item['key']}' was removed\n"
+                    f"Property '{path}{item['key']}' was removed"
                 )
 
             case 'updated':
                 result.append(
-                    f"Property '{path}{item['key']}'"
-                )
-                result.append(
-                    f' was updated. From {format_val(item["old_value"])}'
-                )
-                result.append(
-                    f' to {format_val(item["new_value"])}\n'
+                    f"Property '{path}{item['key']}' was updated. "
+                    f"From {format_val(item['old_value'])} "
+                    f"to {format_val(item['new_value'])}"
                 )
 
-    return ''.join(result)
+    return '\n'.join(result)
 
 
 def format_val(val):
+    if val is None:
+        return 'null'
     if isinstance(val, dict):
         return '[complex value]'
     if isinstance(val, bool):
         return str(val).lower()
     if isinstance(val, str):
         return f"'{val}'"
-    if val is None:
-        return 'null'
-    else:
+    if isinstance(val, int):
         return str(val)
