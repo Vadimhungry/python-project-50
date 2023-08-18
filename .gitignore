@@ -4,3 +4,5 @@ dist/
 .idea/
 **/__pycache__
 test_files/
+.coverage
+coverage.xml
