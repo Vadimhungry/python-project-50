@@ -91,9 +91,9 @@ def stylize(diff, replacer=' ', spaces_count=1, level=1):
 
 
 def to_str(val, replacer=' ', spaces_count=1, level=0):
-    result = []
 
     if isinstance(val, dict):
+        result = []
         prekey_replacer = replacer * (spaces_count * level * 4 + 4)
         prebracket_replacer = replacer * (spaces_count * level * 4)
 
@@ -106,14 +106,12 @@ def to_str(val, replacer=' ', spaces_count=1, level=0):
             )
 
         result.append(f'\n{prebracket_replacer}{"}"}')
+        return ''.join(result)
 
-    if isinstance(val, bool):
-        result.append(str(val).lower())
     if val is None:
-        result.append('null')
+        return 'null'
+    if isinstance(val, bool):
+        return str(val).lower()
     if isinstance(val, str):
-        result.append(val)
-    if isinstance(val, int) and not isinstance(val, bool):
-        result.append(str(val))
-
-    return ''.join(result)
+        return val
+    return str(val)
