@@ -1,10 +1,14 @@
+import os.path
+
 import pytest
 from os.path import dirname, abspath
 from gendiff.get_diff import generate_diff
 
+FIXTURE_PATH = os.path.join(f'{dirname(abspath(__file__))}', 'fixtures')
 
-def get_path(file):
-    return f"{dirname(abspath(__file__))}/fixtures/{file}"
+def get_fixture_path(file):
+    return os.path.join(FIXTURE_PATH, file)
+
 
 
 @pytest.mark.parametrize("file1, file2, output, format",
@@ -16,7 +20,7 @@ def get_path(file):
                          ]
                          )
 def test_generate_diff_stylish(file1, file2, output, format):
-    file_1 = get_path(file1)
-    file_2 = get_path(file2)
-    result = (open(get_path(output), 'r')).read()
+    file_1 = get_fixture_path(file1)
+    file_2 = get_fixture_path(file2)
+    result = (open(get_fixture_path(output), 'r')).read()
     assert generate_diff(file_1, file_2, format) == result
