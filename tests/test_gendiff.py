@@ -6,9 +6,9 @@ from gendiff.get_diff import generate_diff
 
 FIXTURE_PATH = os.path.join(f'{dirname(abspath(__file__))}', 'fixtures')
 
+
 def get_fixture_path(file):
     return os.path.join(FIXTURE_PATH, file)
-
 
 
 @pytest.mark.parametrize("file1, file2, output, format",
